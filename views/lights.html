@@ -1,0 +1,111 @@
+<h1 class="title-h1">{{ title || 'Lights' }}</h1>
+
+<div class="row">
+
+  <aside id="sidebar" class="col-md-3">
+    <div class="search">
+      <input type="search" results="0" placeholder="Search" ng-model="search.n" ng-focus="light=null;search={}">
+    </div>
+
+
+    <div class="list-group">
+      <a class="list-group-item" ng-repeat="val in categorys" ng-click="setCategory(val.k)" ng-class="{active: search.c == val.k}">
+        {{ val.v }}
+        <span class="badge">{{ nums[val.k] }}</span>
+      </a>
+    </div>
+
+    
+    <div class="widget tags hidden-xs">
+      <h3 class="title">Tags</h3>
+      
+      <ul class="entry">
+        <li ng-repeat="tag in tags" ng-click="setTag(tag)" ng-class="{active: search.ts.indexOf(tag) > -1}">
+          <span>{{ tag }}</span>
+          <small>{{ nums[tag] }}</small>
+        </li>
+      </ul>
+      
+    </div>
+
+
+    <div class="widget hidden-xs">
+      <h3 class="title">Contact US</h3>
+      <ul class="entry">
+        <li>Daisy Group Co., Ltd</li>
+        <li>Contact：Mary</li>
+        <li>Tel : (0086) 020 8641 4989</li>
+        <li>Fax: (0086) 020 6116 2251</li>
+        <li>QQ: 2274937859</li>
+        <li>
+          E-mail: <a href="mailto:daisylight@vip.163.com">daisylight@vip.163.com</a>
+        </li>
+        <li>
+          Skype: <a href="skype:ampus05?chat">Ampus05</a> 
+        </li>
+        <li>
+          Address: Bldg.A2~A3,No.11 Industrial Area,Yagang,Baiyun District,Guangzhou,China
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+
+
+  <div class="col-md-9">
+
+    <!-- lists lights -->
+    <div class="row lists" ng-hide="light">
+      <div class="col-xs-6 col-md-4" ng-repeat="light in lights | filter: search | orderBy : 's': true ">
+        <a class="thumbnail" ng-click="show(light)">
+          <img ng-src="http://daisy.qiniudn.com/{{ light.is[0] }}-400x300" alt="{{ light.n }}">
+        </a>
+        <div class="name">{{ light.n }}</div>
+        <div class="desc" title="{{ light.de }}">{{ light.de }}</div>
+
+      </div>
+    </div>
+
+    <!-- show light -->
+    <div class="light" ng-show="light">
+      <carousel interval="2500">
+        <slide ng-repeat="img in light.is">
+          <a href="http://daisy.qiniudn.com/{{ img }}-1200x900" target="_blank">
+            <img ng-src="http://daisy.qiniudn.com/{{ img }}-400x300" alt="{{ light.n }}" style="margin:auto;">
+          </a>
+          <div class="carousel-caption">
+            <h4>Slide {{$index}}</h4>
+            <p>{{light.n}}</p>
+          </div>
+        </slide>
+      </carousel>
+
+      <div class="marks">
+        <span href="#" class="{{ mk }}" ng-repeat="mk in light.ms" title="{{ mk }}" ng-click="setMark(mk)">
+        </span>
+      </div>
+      <h3 class="title-sub">
+        技术参数
+      </h3>
+      <div class="details" bind-html-unsafe="light.be"></div>
+      <h3 class="title-sub">
+        Message
+        <small>Leave a message to US.</small>
+      </h3>
+      <form>
+        <input ng-model='message.name' placeholder="Name *">
+        <input ng-model='message.email' placeholder="Email *">
+        <input ng-model='message.country' placeholder="Country City">
+        <textarea placeholder="Message *" ng-model="message.content" class="ng-pristine ng-valid"></textarea>
+        <button type="button" class="btn btn-default" ng-click="send(message)">Submit Message</button>
+        <div style="text-align: center;">
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+<hr>
+
+<!-- {{ search }} -->
