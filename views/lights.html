@@ -73,15 +73,15 @@
           <a href="http://daisy.qiniudn.com/{{ img }}-1200x900" target="_blank">
             <img ng-src="http://daisy.qiniudn.com/{{ img }}-400x300" alt="{{ light.n }}" style="margin:auto;">
           </a>
-          <div class="carousel-caption">
+<!--           <div class="carousel-caption">
             <h4>Slide {{$index}}</h4>
             <p>{{light.n}}</p>
-          </div>
+          </div> -->
         </slide>
       </carousel>
 
       <div class="marks">
-        <span href="#" class="{{ mk }}" ng-repeat="mk in light.ms" title="{{ mk }}" ng-click="setMark(mk)">
+        <span href="#" class="{{ mk }}" ng-repeat="mk in light.ms" tooltip-placement="bottom" tooltip="{{ marks[mk] }}" ng-click="setMark(mk)">
         </span>
       </div>
       <h3 class="title-sub">
@@ -93,10 +93,10 @@
         <small>Leave a message to US.</small>
       </h3>
       <form>
-        <input ng-model='message.name' placeholder="Name *">
-        <input ng-model='message.email' placeholder="Email *">
+        <input ng-model='message.name' placeholder="Name">
+        <input ng-model='message.email' placeholder="Email">
         <input ng-model='message.country' placeholder="Country City">
-        <textarea placeholder="Message *" ng-model="message.content" class="ng-pristine ng-valid"></textarea>
+        <textarea placeholder="Message" ng-model="message.content" class="ng-pristine ng-valid"></textarea>
         <button type="button" class="btn btn-default" ng-click="send(message)">Submit Message</button>
         <div style="text-align: center;">
         </div>

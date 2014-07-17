@@ -53,6 +53,28 @@ app.factory 'Data', ($http) ->
     {k: 'washer', v: 'LED Wall Washer'}
     {k: 'other', v: 'Other'}
   ]
+  obj.marks = 
+    s3: 'RGB'
+    s4: 'RGBA/W'
+    s5: 'RGBAW'
+    m2: 'WW 2-IN-1'
+    m3: '3-IN-1'
+    m4: '4-IN-1'
+    m5: '5-IN-1'
+    m6: '6-IN-1'
+    ip20: 'IP20'
+    ip65: 'IP65'
+    ip67: 'IP67'
+    sd: 'Sound Activation'
+    wl: 'Wireless'
+    dmx: 'DMX 512'
+    auto: 'Auto Programs'
+    flick: 'Flicker Free'
+    charge: 'Rechargeable'
+    live: 'LIVE'
+    cast: 'Flight Cast'
+    disco: 'Disco'
+
   if !store.get 'data'
     $http.get('/js/lights.json').success (rs) ->
       nums = {}
@@ -73,11 +95,14 @@ app.factory 'Data', ($http) ->
     obj.nums = data[1]
   obj
 
+
+
 app.controller 'HomeCtrl', ($scope, Data) ->
   console.log 'home...'
 
 app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
   $scope.lights = Data.lights
+  $scope.marks = Data.marks
   $scope.categorys = Data.categorys
   $scope.tags = Data.tags 
   $scope.nums = Data.nums
@@ -93,7 +118,8 @@ app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
     $anchorScroll()
     $scope.light = ''
     $scope.search = ms: mk
-  
+    console.log mk
+    $scope.title = "Marks: #{$scope.marks[mk]}"
   $scope.setTag = (tag) ->
     $anchorScroll()
     $scope.light = ''

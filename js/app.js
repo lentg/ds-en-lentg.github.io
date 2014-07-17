@@ -89,6 +89,28 @@ app.factory('Data', function($http) {
       v: 'Other'
     }
   ];
+  obj.marks = {
+    s3: 'RGB',
+    s4: 'RGBA/W',
+    s5: 'RGBAW',
+    m2: 'WW 2-IN-1',
+    m3: '3-IN-1',
+    m4: '4-IN-1',
+    m5: '5-IN-1',
+    m6: '6-IN-1',
+    ip20: 'IP20',
+    ip65: 'IP65',
+    ip67: 'IP67',
+    sd: 'Sound Activation',
+    wl: 'Wireless',
+    dmx: 'DMX 512',
+    auto: 'Auto Programs',
+    flick: 'Flicker Free',
+    charge: 'Rechargeable',
+    live: 'LIVE',
+    cast: 'Flight Cast',
+    disco: 'Disco'
+  };
   if (!store.get('data')) {
     $http.get('/js/lights.json').success(function(rs) {
       var cat, nums, tag, _i, _j, _len, _len1, _ref, _ref1;
@@ -133,6 +155,7 @@ app.controller('HomeCtrl', function($scope, Data) {
 app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data) {
   var name;
   $scope.lights = Data.lights;
+  $scope.marks = Data.marks;
   $scope.categorys = Data.categorys;
   $scope.tags = Data.tags;
   $scope.nums = Data.nums;
@@ -151,9 +174,11 @@ app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data)
   $scope.setMark = function(mk) {
     $anchorScroll();
     $scope.light = '';
-    return $scope.search = {
+    $scope.search = {
       ms: mk
     };
+    console.log(mk);
+    return $scope.title = "Marks: " + $scope.marks[mk];
   };
   $scope.setTag = function(tag) {
     $anchorScroll();
