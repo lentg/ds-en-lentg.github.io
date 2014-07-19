@@ -1,1 +1,28 @@
 <h1 class="title-h1">About US</h1>
+
+<h2 class="title-sub">Company && Equipment</h2>
+<carousel interval="2500">
+  <slide ng-repeat="slide in slides">
+    <a href="/img/eq/{{ slide.img }}.jpg" target="_blank">
+      <img ng-src="/img/eq/{{ slide.img }}.jpg" style="margin:auto;">
+    </a>
+    <div class="carousel-caption">
+      <h4>{{ slide.desc }}</h4>
+      <!-- <p>...</p> -->
+    </div>
+  </slide>
+</carousel>
+
+
+<h2 class="title-sub">Get Show</h2>
+<div class="list-group" >
+  <a class="list-group-item" >
+    2013 Beijing Exhibition
+    <span class="badge">2013-11</span>
+  </a>
+  <a class="list-group-item" >
+    2013 Guangzhou Get Show
+    <span class="badge">2013-06</span>
+  </a>
+</div>
+

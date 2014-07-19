@@ -149,7 +149,25 @@ app.factory('Data', function($http) {
 });
 
 app.controller('HomeCtrl', function($scope, Data) {
-  return console.log('home...');
+  $scope.tops = ['LF109', 'ML-ZQ1519', 'PS1212', 'AWS1209', 'ML140-BEAM', 'PF1012'];
+  return $scope.says = [
+    {
+      who: 'Mr. Klaus',
+      hi: 'One of Germany customer, said: We import products from your company for more than 6 years already because you never disappoint us on quality and delivery time.'
+    }, {
+      who: 'Mr. Stephen',
+      hi: 'One of USA customer, said: I buy goods from China many years but I never meet any company like your company efficient. Every email I sent will be detailed reply by you within 10 minutes. Always I can get information from you in time.'
+    }, {
+      who: 'Mr. Hong',
+      hi: 'One of South Korea customer, said: you save many times for me because I almost have not got complain from my customers again since we import Cases from your company.'
+    }, {
+      who: 'Miss Anita',
+      hi: 'One of Spain customer, said: 2 years ago, we were a new company and do not know products and market very well. But you still support us and help us to develop market. You are our the best partner in China!'
+    }, {
+      who: 'Mr. Sveta',
+      hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'
+    }
+  ];
 });
 
 app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data) {
@@ -160,6 +178,7 @@ app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data)
   $scope.tags = Data.tags;
   $scope.nums = Data.nums;
   $scope.setCategory = function(category) {
+    $scope.xx = false;
     $anchorScroll();
     $scope.light = '';
     $scope.search = {
@@ -177,7 +196,6 @@ app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data)
     $scope.search = {
       ms: mk
     };
-    console.log(mk);
     return $scope.title = "Marks: " + $scope.marks[mk];
   };
   $scope.setTag = function(tag) {
@@ -215,5 +233,34 @@ app.controller('NewsCtrl', function($scope) {
 });
 
 app.controller('AboutCtrl', function($scope, Data) {
-  return console.log('about...');
+  return $scope.slides = [
+    {
+      img: 1,
+      desc: 'The workshop'
+    }, {
+      img: 3,
+      desc: 'Single chip microcomputer'
+    }, {
+      img: 5,
+      desc: 'Single chip microcomputer'
+    }, {
+      img: 6,
+      desc: 'Single chip microcomputer'
+    }, {
+      img: 7,
+      desc: 'The plug-in'
+    }, {
+      img: 8,
+      desc: 'Working'
+    }, {
+      img: 9,
+      desc: 'Waterproof test'
+    }, {
+      img: 10,
+      desc: 'Aging test'
+    }, {
+      img: 11,
+      desc: 'Lighting show'
+    }
+  ];
 });

@@ -2,23 +2,39 @@
 <p>
   <b>Daisy Group Co., Ltd</b> is a high-tech manufacturer in LED stage lighting equipment and illumination products. Nowadays, we have nearly 10,000 square meters standard workshop and about 200 employees, 1/4 of them are R&D engineers and technicians. <b>"DAISEYA"</b> is our own brand, we are specializing in the production of stage lighting, e.g. LED WALL WASHER, MOVING HEADS, CITY COLOR, LED PAR, etc.
 </p>
-<!-- <div class="ds-header">
-  <h1>
-    Gaisy Group Co., Ltd
-    <small>
-    is a high-tech manufacturer in LED stage lighting equipment and illumination products. Nowadays, we have nearly 10,000 square meters standard workshop and about 200 employees, 1/4 of them are R&D engineers and technicians. <b>"DAISEYA"</b> is our own brand, we are specializing in the production of stage lighting, e.g. LED WALL WASHER, MOVING HEADS, CITY COLOR, LED PAR, etc.
-    </small>
-  </h1>
-</div> -->
-
+<br>
 <carousel interval="2500">
   <slide ng-repeat="val in ['LF109', 'WQ1501', 'PS1212', 'AWS1209']">
-    <img ng-src="http://www.daiseya.com/{{ $index + 1 }}.jpg" style="margin:auto;">
-    {{ val }}
+    <a href="#/lights/{{ val }}" target="_blank">
+      <img ng-src="http://www.daiseya.com/{{ $index + 1 }}.jpg" style="margin:auto;">
+    </a>
     <div class="carousel-caption">
-      <a href="#lights/{{ val }}">
-        <h4>{{ val }}</h4>
-      </a>
+      <h4>Slide {{$index}}</h4>
+      <p>...</p>
+    </div>
+  </slide>
+</carousel>
+
+<h2 class="title-sub">New</h2>
+<div class="row tops">
+  <div class="col-xs-6 col-md-2" ng-repeat="light in tops">
+    <a class="thumbnail" ng-click="show(light)" href="#/lights/{{ light }}">
+      <img ng-src="http://daisy.qiniudn.com/{{ light }}-1.jpg-400x300" alt="{{ light }}">
+    </a>
+    <div class="name">{{ light }}</div>
+  </div>
+</div>
+
+
+<h2 class="title-sub">What our customers say:</h2>
+<carousel interval="5000">
+  <slide ng-repeat="say in says">
+    <div class="hi">
+      {{ say.hi }}
+      <br>
+      <em>- {{ say.who }}</em>
+      <div>
+      </div>
     </div>
   </slide>
 </carousel>

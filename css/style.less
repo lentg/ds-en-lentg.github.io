@@ -57,6 +57,7 @@ body {
 
 .list-group a{
   cursor: pointer;
+  text-align: left;
 }
 .lists {
   .thumbnail{
@@ -124,13 +125,6 @@ body {
   }
 }
 
-.carousel{
-  height: 305px;
-}
-.carousel-inner>.item {
-  height: 300px;
-  background-color: #FFF;
-}
 .carousel-indicators {
   bottom: -0.6em;
   li{
@@ -151,7 +145,24 @@ body {
 .ds-header{
   margin: 5em auto;
 }
-
+.tops {
+  margin: 2em auto;
+  .name{
+    text-align: center;
+    margin-top: -1.3em;
+  }
+}
+.hi{
+  padding: 15px 18% 35px 18%;
+  text-align: left;
+  min-height: 125px;
+  font-size: 1.2em;
+  em{
+    display: block;
+    padding-right: 25px;
+    text-align: right;
+  }
+}
 
 
 
@@ -254,18 +265,7 @@ body {
     }
   }
 }
-// #sidebar .widget ul ul,
-// #sidebar .widget ol ul,
-// #sidebar .widget dl ul,
-// #sidebar .widget ul ol,
-// #sidebar .widget ol ol,
-// #sidebar .widget dl ol,
-// #sidebar .widget ul dl,
-// #sidebar .widget ol dl,
-// #sidebar .widget dl dl {
-//   list-style: disc;
-//   margin-left: 20px;
-// }
+
 #sidebar .search {
   margin-bottom: 30px;
 }
@@ -302,10 +302,62 @@ body {
 }
 
 
+
+// about page
+.contact {
+  text-align: right;
+  list-style: none;
+  b{
+    color: #666;
+  }
+  li{
+    margin-top: 0.5em;
+    &.ge{
+      margin-top: 1em;
+    }
+  }
+}
+
+
+
+
+@media (min-width: 768px) {
+  .light{
+    .carousel{
+      height: 300px;
+    }
+    .carousel-inner>.item {
+      height: 300px;
+      background-color: #FFF;
+    }
+  }
+}
+
 @media (max-width: 767px) {
   .details {
     // padding-left: 0;
     ul{padding-left: 0;}
+  }
+  .list-group-item.an-categorys {
+    margin-top: 2em;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .visible-xs-block {
+    text-align: center;
+  }
+  .title-sub {
+    font-size: 1.3em;
+  }
+  .light{
+    .carousel{
+      min-height: 225px;
+    }
+    .carousel-inner>.item {
+      min-height: 225px;
+      background-color: #FFF;
+    }
   }
 }
 
