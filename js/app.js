@@ -31,6 +31,17 @@ app.config(function($routeProvider) {
   });
 });
 
+app.directive('ngClear', function($window) {
+  return {
+    link: function(scope, elm) {
+      return elm.bind('click', function() {
+        store.clear();
+        return $window.location.href = '/';
+      });
+    }
+  };
+});
+
 app.directive('demo', function(Data) {
   return {
     link: function(scope, elm) {
@@ -71,24 +82,6 @@ app.factory('Data', function($http) {
   var data, obj;
   obj = {};
   obj.tags = ['1W', '3W', '8W', '10W', '12W', '15W', '25W', 'Other', 'PAR46', 'PAR64', 'PAR575', 'Flat PAR', 'INDOOR', 'OUTDOOR', 'FULL COLOR', 'SINGLE COLOR'];
-  obj.categorys = [
-    {
-      k: 'par',
-      v: 'LED PAR'
-    }, {
-      k: 'city',
-      v: 'City Color'
-    }, {
-      k: 'moving',
-      v: 'Moving Heads'
-    }, {
-      k: 'washer',
-      v: 'LED Wall Washer'
-    }, {
-      k: 'other',
-      v: 'Other'
-    }
-  ];
   obj.marks = {
     s3: 'RGB',
     s4: 'RGBA/W',
@@ -111,6 +104,24 @@ app.factory('Data', function($http) {
     cast: 'Flight Cast',
     disco: 'Disco'
   };
+  obj.categorys = [
+    {
+      k: 'par',
+      v: 'LED PAR'
+    }, {
+      k: 'city',
+      v: 'City Color'
+    }, {
+      k: 'moving',
+      v: 'Moving Heads'
+    }, {
+      k: 'washer',
+      v: 'LED Wall Washer'
+    }, {
+      k: 'other',
+      v: 'Other'
+    }
+  ];
   if (!store.get('data')) {
     $http.get('/js/lights.json').success(function(rs) {
       var cat, nums, tag, _i, _j, _len, _len1, _ref, _ref1;
@@ -148,9 +159,9 @@ app.factory('Data', function($http) {
   return obj;
 });
 
-app.controller('HomeCtrl', function($scope, Data) {
+app.controller('HomeCtrl', function($scope, $location, Data) {
   $scope.tops = ['LF109', 'ML-ZQ1519', 'PS1212', 'AWS1209', 'ML140-BEAM', 'PF1012'];
-  return $scope.says = [
+  $scope.says = [
     {
       who: 'Mr. Klaus',
       hi: 'One of Germany customer, said: We import products from your company for more than 6 years already because you never disappoint us on quality and delivery time.'
@@ -168,6 +179,14 @@ app.controller('HomeCtrl', function($scope, Data) {
       hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'
     }
   ];
+  return $scope.$on('$routeChangeStart', function(next, current) {
+    var page;
+    page = $location.path();
+    console.log(page);
+    if (page.indexOf('/lights') > -1) {
+      return $('lights').classList.add('active');
+    }
+  });
 });
 
 app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data) {
@@ -184,6 +203,7 @@ app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data)
     $scope.search = {
       c: category
     };
+    $scope.title = 'All Lights';
     return angular.forEach($scope.categorys, function(val) {
       if (val.k === category) {
         return $scope.title = val.v;

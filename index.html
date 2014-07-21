@@ -12,42 +12,43 @@
 
   <body ng-app="daisy">
     <div id="wrap">
-      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" x>
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="x=!x">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
-        </div>
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div x class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="x=!x">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
+          </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" collapse="!x">
-          <ul class="nav navbar-nav">
-            <li id="lights">
-              <a demo href="#/lights">Lights</a>
-            </li>
-            <li id="news">
-              <a href="#/news">News</a>
-            </li>
-            <li id="about">
-              <a href="#/about">About</a>
-            </li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" collapse="!x">
+            <ul class="nav navbar-nav">
+              <li id="lights">
+                <a demo href="#/lights">Lights</a>
+              </li>
+              <li id="news">
+                <a href="#/news">News</a>
+              </li>
+              <li id="about">
+                <a href="#/about">About</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://en.daisylight.com">English</a></li>
+              <li><a href="http://zh.daisylight.com">简体中文</a></li>
+              <li><a ng-clear href="javascript:void(0);">Refresh</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div>
       </nav>
 
 
       <div class="container">
-
         <div ng-view=""></div>
-
-<!--         <div class="footer">
-          <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-        </div> -->
       </div>
 
     </div>
@@ -70,6 +71,7 @@
             <b>Address: </b>
             <a target="_blank" href="http://map.baidu.com/?newmap=1&s=inf%26uid%3D175ffc74e78097b80782c267%26wd%3D%E5%B9%BF%E5%B7%9E%E5%BE%97%E5%BF%97%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%26all%3D1%26c%3D257&from=alamap&tpl=map_singlepoint">Bldg.A2~A3,No.11 Industrial Area,Yagang,Baiyun District,Guangzhou,China</a>
           </p>
+          <p clear>Clear</p>
         </address>
       </div>
     </div>

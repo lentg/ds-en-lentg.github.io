@@ -5,19 +5,19 @@
 <br>
 <carousel interval="2500">
   <slide ng-repeat="val in ['LF109', 'WQ1501', 'PS1212', 'AWS1209']">
-    <a href="#/lights/{{ val }}" target="_blank">
+    <a href="#/lights/{{ val }}">
       <img ng-src="http://www.daiseya.com/{{ $index + 1 }}.jpg" style="margin:auto;">
     </a>
-    <div class="carousel-caption">
+<!--     <div class="carousel-caption">
       <h4>Slide {{$index}}</h4>
       <p>...</p>
-    </div>
+    </div> -->
   </slide>
 </carousel>
 
 <h2 class="title-sub">New</h2>
 <div class="row tops">
-  <div class="col-xs-6 col-md-2" ng-repeat="light in tops">
+  <div als class="col-xs-6 col-md-2" ng-repeat="light in tops">
     <a class="thumbnail" ng-click="show(light)" href="#/lights/{{ light }}">
       <img ng-src="http://daisy.qiniudn.com/{{ light }}-1.jpg-400x300" alt="{{ light }}">
     </a>

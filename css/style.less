@@ -44,10 +44,10 @@ body {
 }
 
 .navbar-brand {
-  background: url(../img/logo.png) no-repeat center bottom;
-  width: 190px;
-  padding: 18px;
-  height: inherit;
+  background: url(../img/logo.png) no-repeat left center;
+  margin: 10px auto; 
+  width: 150px;
+  height: 22px;
   text-indent: -9000px;
 }
 
@@ -228,6 +228,12 @@ body {
 
 
 #sidebar {
+  .als {
+    z-index: 2;
+    color: #fff;
+    background-color: #222;
+    border-color: #222;
+  }
 }
 #sidebar .widget {
   // line-height: 1.8em;
@@ -334,6 +340,13 @@ body {
 }
 
 @media (max-width: 767px) {
+  .navbar-brand {
+    background: url(../img/logo.png) no-repeat center center;
+    // margin: 10px auto; 
+    // width: 150px;
+    // height: 22px;
+    text-indent: -9000px;
+  }
   .details {
     // padding-left: 0;
     ul{padding-left: 0;}

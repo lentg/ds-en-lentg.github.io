@@ -12,7 +12,10 @@
         <span class="glyphicon glyphicon-align-justify pull-right"></span>
       </a>
       <div collapse="!xx">
-        
+        <a class="list-group-item" ng-click="setCategory('')">
+          Lights
+          <span class="badge">{{ lights.length }}</span>
+        </a>
         <a class="list-group-item" ng-repeat="val in categorys" ng-click="setCategory(val.k)" ng-class="{active: search.c == val.k}">
           {{ val.v }}
           <span class="badge">{{ nums[val.k] }}</span>
@@ -22,6 +25,10 @@
 
     <div class="hidden-xs">
       <div class="list-group" >
+        <a class="list-group-item als" ng-click="setCategory('')">
+          Lights
+          <span class="badge">{{ lights.length }}</span>
+        </a>
         <a class="list-group-item" ng-repeat="val in categorys" ng-click="setCategory(val.k)" ng-class="{active: search.c == val.k}">
           {{ val.v }}
           <span class="badge">{{ nums[val.k] }}</span>
@@ -62,6 +69,9 @@
       </div>
     </div>
   </aside>
+
+
+
 
 
 

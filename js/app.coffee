@@ -23,6 +23,12 @@ app.config ($routeProvider) ->
       .otherwise
         redirectTo: '/'
 
+app.directive 'ngClear', ($window) ->
+  link: (scope, elm) ->
+    elm.bind 'click', ->
+      store.clear()
+      $window.location.href = '/'
+
 app.directive 'demo', (Data) ->
   link: (scope, elm) ->
     elm.bind 'click', ->
@@ -46,6 +52,7 @@ app.directive 'x', ($location) ->
 app.factory 'Data', ($http) ->
   obj = {}
   obj.tags = ['1W', '3W', '8W', '10W', '12W', '15W', '25W', 'Other', 'PAR46', 'PAR64', 'PAR575', 'Flat PAR', 'INDOOR', 'OUTDOOR', 'FULL COLOR', 'SINGLE COLOR']
+  obj.marks = s3: 'RGB', s4: 'RGBA/W', s5: 'RGBAW', m2: 'WW 2-IN-1', m3: '3-IN-1', m4: '4-IN-1', m5: '5-IN-1', m6: '6-IN-1', ip20: 'IP20', ip65: 'IP65', ip67: 'IP67', sd: 'Sound Activation', wl: 'Wireless', dmx: 'DMX 512', auto: 'Auto Programs', flick: 'Flicker Free', charge: 'Rechargeable', live: 'LIVE', cast: 'Flight Cast', disco: 'Disco'
   obj.categorys = [
     {k: 'par', v: 'LED PAR'}
     {k: 'city', v: 'City Color'}
@@ -53,27 +60,6 @@ app.factory 'Data', ($http) ->
     {k: 'washer', v: 'LED Wall Washer'}
     {k: 'other', v: 'Other'}
   ]
-  obj.marks = 
-    s3: 'RGB'
-    s4: 'RGBA/W'
-    s5: 'RGBAW'
-    m2: 'WW 2-IN-1'
-    m3: '3-IN-1'
-    m4: '4-IN-1'
-    m5: '5-IN-1'
-    m6: '6-IN-1'
-    ip20: 'IP20'
-    ip65: 'IP65'
-    ip67: 'IP67'
-    sd: 'Sound Activation'
-    wl: 'Wireless'
-    dmx: 'DMX 512'
-    auto: 'Auto Programs'
-    flick: 'Flicker Free'
-    charge: 'Rechargeable'
-    live: 'LIVE'
-    cast: 'Flight Cast'
-    disco: 'Disco'
 
   if !store.get 'data'
     $http.get('/js/lights.json').success (rs) ->
@@ -97,7 +83,7 @@ app.factory 'Data', ($http) ->
 
 
 
-app.controller 'HomeCtrl', ($scope, Data) ->
+app.controller 'HomeCtrl', ($scope, $location, Data) ->
   $scope.tops = ['LF109', 'ML-ZQ1519', 'PS1212', 'AWS1209', 'ML140-BEAM', 'PF1012']
   $scope.says = [
     {who: 'Mr. Klaus', hi:'One of Germany customer, said: We import products from your company for more than 6 years already because you never disappoint us on quality and delivery time.'}
@@ -106,7 +92,11 @@ app.controller 'HomeCtrl', ($scope, Data) ->
     {who: 'Miss Anita', hi: 'One of Spain customer, said: 2 years ago, we were a new company and do not know products and market very well. But you still support us and help us to develop market. You are our the best partner in China!'}    
     {who: 'Mr. Sveta', hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'}    
   ]
-
+  $scope.$on '$routeChangeStart', (next, current) ->
+    page = $location.path()
+    console.log page
+    if page.indexOf('/lights') > -1
+      $('lights').classList.add('active') 
 
 app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
   $scope.lights = Data.lights
@@ -120,6 +110,7 @@ app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
     $anchorScroll()
     $scope.light = ''
     $scope.search = c: category
+    $scope.title = 'All Lights'
     angular.forEach $scope.categorys, (val) -> $scope.title = val.v if val.k is category
   
   $scope.setMark = (mk) ->
