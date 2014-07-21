@@ -32,7 +32,7 @@
         <h3 class="title">Tags</h3>
         
         <ul class="entry">
-          <li ng-repeat="tag in tags" ng-click="setTag(tag)" ng-class="{active: search.ts.indexOf(tag) > -1}" ng-show="nums[tag]">
+          <li ng-repeat="tag in tags" ng-click="setTag(tag)" ng-class="{active: search.ts.indexOf(tag) > -1}" ng-if="nums[tag]">
             <span>{{ tag }}</span>
             <small>{{ nums[tag] }}</small>
           </li>
@@ -68,7 +68,7 @@
   <div class="col-md-9">
     <h1 class="title-sub visible-xs-block">{{ title || 'Lights' }}</h1>
     <!-- lists lights -->
-    <div class="row lists" ng-hide="light">
+    <div class="row lists" ng-if="!light">
       <div class="col-xs-6 col-md-4" ng-repeat="light in lights | filter: search | orderBy : 's': true ">
         <a class="thumbnail" ng-click="show(light)">
           <img ng-src="http://daisy.qiniudn.com/{{ light.is[0] }}-400x300" alt="{{ light.n }}">
@@ -80,7 +80,7 @@
     </div>
 
     <!-- show light -->
-    <div class="light" ng-show="light">
+    <div class="light" ng-if="light">
 
       <carousel interval="2500">
         <slide ng-repeat="img in light.is">
