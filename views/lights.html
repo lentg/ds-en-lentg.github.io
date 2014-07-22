@@ -48,25 +48,18 @@
       </div>
 
 
-      <div class="widget">
-        <h3 class="title">Contact US</h3>
-        <ul class="entry">
-          <li>Daisy Group Co., Ltd</li>
-          <li>Contact：Mary</li>
-          <li>Tel : (+86) 020 8641 4989</li>
-          <li>Fax: (+86) 020 6116 2251</li>
-          <li>QQ: 2274937859</li>
-          <li>
-            E-mail: <a href="mailto:daisylight@vip.163.com">daisylight@vip.163.com</a>
-          </li>
-          <li>
-            Skype: <a href="skype:ampus05?chat">Ampus05</a> 
-          </li>
-          <li>
-            Address: Bldg.A2~A3,No.11 Industrial Area,Yagang,Baiyun District,Guangzhou,China
-          </li>
-        </ul>
+      <div class="widget related" ng-if="light">
+        <h3 class="title">Related</h3>
+        <div class="row">
+          <div class="col-xs-12" ng-repeat="related in relateds">
+            <a class="thumbnail" ng-click="show(related)">
+              <img ng-src="http://daisy.qiniudn.com/{{ related.is[0] }}-400x300" alt="{{ related.n }}">
+            </a>
+            <div class="name">{{ related.n }}</div>
+          </div>
+        </div>
       </div>
+
     </div>
   </aside>
 
@@ -80,7 +73,7 @@
     <!-- lists lights -->
     <div class="row lists" ng-if="!light">
       <div class="col-xs-6 col-md-4" ng-repeat="light in lights | filter: search | orderBy : 's': true ">
-        <a class="thumbnail" ng-click="show(light)">
+        <a class="thumbnail" ng-click="show(light, $index)">
           <img ng-src="http://daisy.qiniudn.com/{{ light.is[0] }}-400x300" alt="{{ light.n }}">
         </a>
         <div class="name">{{ light.n }}</div>
@@ -92,7 +85,7 @@
     <!-- show light -->
     <div class="light" ng-if="light">
 
-      <carousel interval="2500">
+      <carousel interval="">
         <slide ng-repeat="img in light.is">
           <a href="http://daisy.qiniudn.com/{{ img }}-1200x900" target="_blank">
             <img ng-src="http://daisy.qiniudn.com/{{ img }}-400x300" alt="{{ light.n }}" style="margin:auto;">
@@ -105,7 +98,7 @@
         </span>
       </div>
       <h3 class="title-sub">
-        技术参数
+        Technical Parameters
       </h3>
       <div class="details" bind-html-unsafe="light.be"></div>
       <h3 class="title-sub">

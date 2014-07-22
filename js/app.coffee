@@ -1,6 +1,29 @@
 'use strict'
 $ = (id) ->
   document.getElementById id
+
+random = (min, max) ->
+  if !max
+    max = min
+    min = 0
+  min + Math.floor(Math.random() * (max - min + 1))
+
+shuffle = (items, n) ->
+  index = -1
+  length = items.length
+  result = Array(length)
+
+  for i in [0...length]
+    rand = random 0, i
+    result[i] = result[rand] if i != rand
+    result[rand] = items[i]
+  if n
+    result.slice 0, n
+  else
+    result
+
+
+# console.log shuffle [2,5,8,9,6], 3
 tags = ['1W', '3W', '5W', '8W', '10W', '12W', '15W', '25W', 'PAR46', 'PAR64', 'PAR575', 'Flat PAR', 'INDOOR', 'OUTDOOR', 'FULL COLOR', 'SINGLE COLOR', 'Other']
 app = angular.module('daisy', ['ngRoute', 'ui.bootstrap'])
 app.config ($routeProvider) ->
@@ -124,12 +147,13 @@ app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
     $scope.search = ts: tag
     $scope.title = "Tags: #{tag}"
   
-  $scope.show = (light) ->
+  $scope.show = (light, index) ->
     $anchorScroll()
     $scope.search = c: light?.c, ts: light?.ts
     $scope.light = light
     $scope.title = light?.n
-  
+    $scope.relateds = shuffle $scope.lights, 4
+
   $scope.send = (message) ->
     console.log message
     $scope.message = ''
@@ -154,4 +178,3 @@ app.controller 'AboutCtrl', ($scope, Data) ->
     {img: 11, desc: 'Lighting show'}
   ]
 
-   

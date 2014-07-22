@@ -78,11 +78,37 @@
 # console.log  food for food in foods when food is 'chocolate'
 
 
-categorys = [
-  {k: 'par', v: 'LED PAR'}
-  {k: 'city', v: 'City Color'}
-  {k: 'moving', v: 'Moving Heads'}
-  {k: 'washer', v: 'LED Wall Washer'}
-  {k: 'other', v: 'Other'}
-]
-console.log category.v for category in categorys when category.k is 'par'
+# categorys = [
+#   {k: 'par', v: 'LED PAR'}
+#   {k: 'city', v: 'City Color'}
+#   {k: 'moving', v: 'Moving Heads'}
+#   {k: 'washer', v: 'LED Wall Washer'}
+#   {k: 'other', v: 'Other'}
+# ]
+# console.log category.v for category in categorys when category.k is 'par'
+
+
+random = (min, max) ->
+  if !max
+    max = min
+    min = 0
+  min + Math.floor(Math.random() * (max - min + 1))
+  
+shuffle = (items, n) ->
+  index = -1
+  length = items.length
+  result = Array(length)
+
+  for i in [0...length]
+    rand = random 0, i
+    result[i] = result[rand] if i != rand
+    result[rand] = items[i]
+  if n
+    result.slice 0, n
+  else
+    result
+
+
+console.log shuffle [2,5,8,9,6], 3
+
+
