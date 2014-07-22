@@ -209,7 +209,6 @@ app.controller('HomeCtrl', function($scope, $location, Data) {
   return $scope.$on('$routeChangeStart', function(next, current) {
     var page;
     page = $location.path();
-    console.log(page);
     if (page.indexOf('/lights') > -1) {
       return $('lights').classList.add('active');
     }
@@ -255,17 +254,18 @@ app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data)
   };
   $scope.show = function(light, index) {
     $anchorScroll();
+    $scope.message = {};
     $scope.search = {
       c: light != null ? light.c : void 0,
       ts: light != null ? light.ts : void 0
     };
     $scope.light = light;
     $scope.title = light != null ? light.n : void 0;
-    return $scope.relateds = shuffle($scope.lights, 4);
-  };
-  $scope.send = function(message) {
-    console.log(message);
-    return $scope.message = '';
+    $scope.relateds = shuffle($scope.lights, 4);
+    return $scope.send = function(message) {
+      console.log(message);
+      return $scope.message.content = '';
+    };
   };
   if (name = $routeParams.name) {
     return angular.forEach($scope.lights, function(val) {

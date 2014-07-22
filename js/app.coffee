@@ -22,8 +22,6 @@ shuffle = (items, n) ->
   else
     result
 
-
-# console.log shuffle [2,5,8,9,6], 3
 tags = ['1W', '3W', '5W', '8W', '10W', '12W', '15W', '25W', 'PAR46', 'PAR64', 'PAR575', 'Flat PAR', 'INDOOR', 'OUTDOOR', 'FULL COLOR', 'SINGLE COLOR', 'Other']
 app = angular.module('daisy', ['ngRoute', 'ui.bootstrap'])
 app.config ($routeProvider) ->
@@ -117,7 +115,6 @@ app.controller 'HomeCtrl', ($scope, $location, Data) ->
   ]
   $scope.$on '$routeChangeStart', (next, current) ->
     page = $location.path()
-    console.log page
     if page.indexOf('/lights') > -1
       $('lights').classList.add('active') 
 
@@ -149,14 +146,16 @@ app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
   
   $scope.show = (light, index) ->
     $anchorScroll()
+    $scope.message = {}
     $scope.search = c: light?.c, ts: light?.ts
     $scope.light = light
     $scope.title = light?.n
     $scope.relateds = shuffle $scope.lights, 4
 
-  $scope.send = (message) ->
-    console.log message
-    $scope.message = ''
+    $scope.send = (message) ->
+      console.log message
+      $scope.message.content = ''
+
   if name = $routeParams.name
     angular.forEach $scope.lights, (val) -> $scope.show(val) if val.n is name
         
