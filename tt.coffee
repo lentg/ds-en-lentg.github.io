@@ -88,27 +88,39 @@
 # console.log category.v for category in categorys when category.k is 'par'
 
 
-random = (min, max) ->
-  if !max
-    max = min
-    min = 0
-  min + Math.floor(Math.random() * (max - min + 1))
+a = [1,2,3,6,9,8,7,11,25,13,59,60,66,33,88,99,55]
+# random = (min, max) ->
+#   if !max
+#     max = min
+#     min = 0
+#   min + Math.floor(Math.random() * (max - min + 1))
   
-shuffle = (items, n) ->
-  index = -1
-  length = items.length
-  result = Array(length)
+# shuffle = (items, n) ->
+#   index = -1
+#   length = items.length
+#   result = Array(length)
 
-  for i in [0...length]
-    rand = random 0, i
-    result[i] = result[rand] if i != rand
-    result[rand] = items[i]
-  if n
-    result.slice 0, n
-  else
-    result
+#   for i in [0...length]
+#     rand = random 0, i
+#     result[i] = result[rand] if i != rand
+#     result[rand] = items[i]
+#   if n
+#     result.slice 0, n
+#   else
+#     result
+
+# console.time '100-elements'
+# # for i in [0...5]
+# console.log (shuffle a).slice 0, 3
+# console.timeEnd('100-elements');
 
 
-console.log shuffle [2,5,8,9,6], 3
+
+# console.time('200-elements');
+# # for i in [0...5]
+# console.log (a.sort -> 0.5 - Math.random()).slice 0, 3
+# console.timeEnd('200-elements');
 
 
+console.log a.sort -> 0.5 - Math.random()
+console.log a.some
