@@ -160,7 +160,7 @@ app.factory('Data', function($http) {
 });
 
 app.controller('HomeCtrl', function($scope, $location, Data) {
-  $scope.tops = ['LF109', 'ML-ZQ1519', 'PS1212', 'AWS1209', 'ML140-BEAM', 'PF1012'];
+  $scope.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209', 'ML140-BEAM', 'PF1012'];
   $scope.says = [
     {
       who: 'Mr. Klaus',
