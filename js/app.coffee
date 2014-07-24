@@ -105,7 +105,7 @@ app.factory 'Data', ($http) ->
 
 
 app.controller 'HomeCtrl', ($scope, $location, Data) ->
-  $scope.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209', 'ML140-BEAM', 'PF1012']
+  $scope.tops = ['ct80', 'PS1212', 'LF2512', 'AWS1209', 'ML140-BEAM', 'PF1012']
   $scope.says = [
     {who: 'Mr. Klaus', hi:'One of Germany customer, said: We import products from your company for more than 6 years already because you never disappoint us on quality and delivery time.'}
     {who: 'Mr. Stephen', hi: 'One of USA customer, said: I buy goods from China many years but I never meet any company like your company efficient. Every email I sent will be detailed reply by you within 10 minutes. Always I can get information from you in time.'}    
