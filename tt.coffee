@@ -122,5 +122,8 @@ a = [1,2,3,6,9,8,7,11,25,13,59,60,66,33,88,99,55]
 # console.timeEnd('200-elements');
 
 
-console.log a.sort -> 0.5 - Math.random()
-console.log a.some
+# console.log a.sort -> 0.5 - Math.random()
+console.log new Date().getFullYear()
+d = new Date()
+console.log new Date().toDateString()
+console.log "#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()}"

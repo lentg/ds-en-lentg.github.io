@@ -8,3 +8,10 @@ uglifyjs /home/doe/work/foo/src/js/file1.js \
          -p 5 -c -m
 
 cd web-en/js && uglifyjs angular.min.js angular-route.min.js ui-bootstrap-custom-tpls-0.10.0.min.js store.min.js app.js -o app.min.js
+
+
+Message
+  name
+  email
+  country
+  content

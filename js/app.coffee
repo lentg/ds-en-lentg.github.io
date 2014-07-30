@@ -2,27 +2,6 @@
 $ = (id) ->
   document.getElementById id
 
-# random = (min, max) ->
-#   if !max
-#     max = min
-#     min = 0
-#   min + Math.floor(Math.random() * (max - min + 1))
-
-# shuffle = (items, n) ->
-#   index = -1
-#   length = items.length
-#   result = Array(length)
-
-#   for i in [0...length]
-#     rand = random 0, i
-#     result[i] = result[rand] if i != rand
-#     result[rand] = items[i]
-#   if n
-#     result.slice 0, n
-#   else
-#     result
-
-tags = ['1W', '3W', '5W', '8W', '10W', '12W', '15W', '25W', 'PAR46', 'PAR64', 'PAR575', 'Flat PAR', 'INDOOR', 'OUTDOOR', 'FULL COLOR', 'SINGLE COLOR', 'Other']
 app = angular.module('daisy', ['ngRoute', 'ui.bootstrap'])
 app.config ($routeProvider) ->
     $routeProvider
@@ -82,6 +61,10 @@ app.factory 'Data', ($http) ->
     {k: 'other', v: 'Other'}
   ]
 
+  obj.addMessage = (message) ->
+    $http.post('https://flickering-fire-6969.firebaseio.com/message_list.json', JSON.stringify(message))
+    # new Firebase('https://flickering-fire-6969.firebaseio.com/').push message
+
   if !store.get 'data'
     $http.get('/js/lights.json').success (rs) ->
       nums = {}
@@ -117,6 +100,7 @@ app.controller 'HomeCtrl', ($scope, $location, Data) ->
     page = $location.path()
     if page.indexOf('/lights') > -1
       $('lights').classList.add('active') 
+      # document.getElementById('lights').classList.add('active')
 
 app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
   $scope.lights = Data.lights
@@ -124,6 +108,14 @@ app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
   $scope.categorys = Data.categorys
   $scope.tags = Data.tags 
   $scope.nums = Data.nums
+
+  $scope.addMessage = (message) ->
+    message.time = new Date().toDateString()# "#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()}"
+    Data.addMessage(message).success (res) ->
+      $anchorScroll()
+      $scope.message.content = ''
+  
+  
 
   $scope.setCategory = (category) ->
     $scope.xx = false
