@@ -23,10 +23,11 @@ app.config ($routeProvider) ->
       .otherwise
         redirectTo: '/'
 
-app.directive 'ngClear', ($window) ->
+app.directive 'ngClear', ($window, Data) ->
   link: (scope, elm) ->
     elm.bind 'click', ->
       store.clear()
+      Data.lights = []
       $window.location.href = '/'
 
 app.directive 'demo', (Data) ->

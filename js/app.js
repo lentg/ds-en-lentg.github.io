@@ -29,11 +29,12 @@ app.config(function($routeProvider) {
   });
 });
 
-app.directive('ngClear', function($window) {
+app.directive('ngClear', function($window, Data) {
   return {
     link: function(scope, elm) {
       return elm.bind('click', function() {
         store.clear();
+        Data.lights = [];
         return $window.location.href = '/';
       });
     }
