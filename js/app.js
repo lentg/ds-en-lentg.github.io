@@ -122,7 +122,7 @@ app.factory('Data', function($http) {
     }
   ];
   obj.addMessage = function(message) {
-    return $http.post('https://flickering-fire-6969.firebaseio.com/message_list.json', JSON.stringify(message));
+    return $http.post('https://daisylight.firebaseio.com/messages.json', JSON.stringify(message));
   };
   if (!store.get('data')) {
     $http.get('/js/lights.json').success(function(rs) {

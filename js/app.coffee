@@ -63,7 +63,7 @@ app.factory 'Data', ($http) ->
   ]
 
   obj.addMessage = (message) ->
-    $http.post('https://flickering-fire-6969.firebaseio.com/message_list.json', JSON.stringify(message))
+    $http.post('https://daisylight.firebaseio.com/messages.json', JSON.stringify(message))
     # new Firebase('https://flickering-fire-6969.firebaseio.com/').push message
 
   if !store.get 'data'
