@@ -57,15 +57,20 @@ app.directive 'demo', (Data) ->
 
 app.directive 'x', ($location) ->
   link: (scope, elm) ->
+    elm.find('a').eq(0).bind 'click', ->
+      $li = elm.find 'li'
+      elm.find('li').removeClass 'active'
+      scope.x = false
+
+
+app.directive 'xx', ($location) ->
+  link: (scope, elm) ->
     $page = $ $location.path().split('/')[1]
     $page?.classList.add 'active'
-    $li = elm.find('li')
+    $li = elm.find 'li'
     $li.bind 'click', ->
       $li.removeClass 'active'
       this.classList.add 'active' 
-      scope.x = false
-    elm.find('a').eq(0).bind 'click', ->
-      $li.removeClass 'active'
       scope.x = false
 
 app.factory 'Data', ($http) ->

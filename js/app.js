@@ -94,19 +94,28 @@ app.directive('demo', function(Data) {
 app.directive('x', function($location) {
   return {
     link: function(scope, elm) {
+      return elm.find('a').eq(0).bind('click', function() {
+        var $li;
+        $li = elm.find('li');
+        elm.find('li').removeClass('active');
+        return scope.x = false;
+      });
+    }
+  };
+});
+
+app.directive('xx', function($location) {
+  return {
+    link: function(scope, elm) {
       var $li, $page;
       $page = $($location.path().split('/')[1]);
       if ($page != null) {
         $page.classList.add('active');
       }
       $li = elm.find('li');
-      $li.bind('click', function() {
+      return $li.bind('click', function() {
         $li.removeClass('active');
         this.classList.add('active');
-        return scope.x = false;
-      });
-      return elm.find('a').eq(0).bind('click', function() {
-        $li.removeClass('active');
         return scope.x = false;
       });
     }
