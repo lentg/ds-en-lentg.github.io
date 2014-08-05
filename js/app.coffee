@@ -23,12 +23,30 @@ app.config ($routeProvider) ->
       .otherwise
         redirectTo: '/'
 
-app.directive 'ngClear', ($window, Data) ->
+app.directive 'ngClear', ($window, $routeParams, $http, Data) ->
   link: (scope, elm) ->
     elm.bind 'click', ->
       store.clear()
-      Data.lights = []
-      $window.location.href = '/'
+      $http.get('/js/lights.json').success (rs) ->
+        # obj = {}
+        nums = {}
+
+        nums[tag] = 0 for tag in Data.tags
+        nums[cat.k] = 0 for cat in Data.categorys
+        
+        angular.forEach rs, (val) ->
+          nums[val.c] += 1
+          for t in val.ts
+            nums[t] += 1
+          
+        Data.lights = rs
+        Data.nums = nums
+        store.set 'data', [rs, nums]
+
+        scope.$$childHead.lights = rs if scope.$$childHead.lights
+        if name = $routeParams.name
+            angular.forEach rs, (light) ->
+              scope.$$childHead.light = light if light.n is name
 
 app.directive 'demo', (Data) ->
   link: (scope, elm) ->

@@ -29,13 +29,49 @@ app.config(function($routeProvider) {
   });
 });
 
-app.directive('ngClear', function($window, Data) {
+app.directive('ngClear', function($window, $routeParams, $http, Data) {
   return {
     link: function(scope, elm) {
       return elm.bind('click', function() {
         store.clear();
-        Data.lights = [];
-        return $window.location.href = '/';
+        return $http.get('/js/lights.json').success(function(rs) {
+          var cat, name, nums, tag, _i, _j, _len, _len1, _ref, _ref1;
+          nums = {};
+          _ref = Data.tags;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            tag = _ref[_i];
+            nums[tag] = 0;
+          }
+          _ref1 = Data.categorys;
+          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+            cat = _ref1[_j];
+            nums[cat.k] = 0;
+          }
+          angular.forEach(rs, function(val) {
+            var t, _k, _len2, _ref2, _results;
+            nums[val.c] += 1;
+            _ref2 = val.ts;
+            _results = [];
+            for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+              t = _ref2[_k];
+              _results.push(nums[t] += 1);
+            }
+            return _results;
+          });
+          Data.lights = rs;
+          Data.nums = nums;
+          store.set('data', [rs, nums]);
+          if (scope.$$childHead.lights) {
+            scope.$$childHead.lights = rs;
+          }
+          if (name = $routeParams.name) {
+            return angular.forEach(rs, function(light) {
+              if (light.n === name) {
+                return scope.$$childHead.light = light;
+              }
+            });
+          }
+        });
       });
     }
   };
