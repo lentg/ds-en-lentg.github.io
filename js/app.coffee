@@ -134,7 +134,7 @@ app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
   $scope.nums = Data.nums
 
   $scope.addMessage = (message) ->
-    message.time = new Date().toDateString()# "#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()}"
+    message.time = new Date().getTime()# "#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()}"
     Data.addMessage(message).success (res) ->
       $anchorScroll()
       $scope.message.content = ''

@@ -243,7 +243,7 @@ app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data)
   $scope.tags = Data.tags;
   $scope.nums = Data.nums;
   $scope.addMessage = function(message) {
-    message.time = new Date().toDateString();
+    message.time = new Date().getTime();
     return Data.addMessage(message).success(function(res) {
       $anchorScroll();
       return $scope.message.content = '';
