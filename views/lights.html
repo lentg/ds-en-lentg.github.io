@@ -116,14 +116,12 @@
         Message
         <small>Leave a message to US.</small>
       </h3>
-      <form>
-        <input ng-model='message.name' placeholder="Name">
-        <input ng-model='message.email' placeholder="Email">
+      <form ng-submit="addMessage(message)">
+        <input ng-model='message.name' placeholder="Name" required>
+        <input type="email" ng-model='message.email' placeholder="Email" required>
         <input ng-model='message.country' placeholder="Country City">
-        <textarea placeholder="Message" ng-model="message.content" class="ng-pristine ng-valid"></textarea>
-        <button type="button" class="btn btn-default" ng-click="addMessage(message)">Submit Message</button>
-        <div style="text-align: center;">
-        </div>
+        <textarea placeholder="Message" ng-model="message.content" class="ng-pristine ng-valid" required></textarea>
+        <input type="submit" id="submit" value="Submit Message" class="btn btn-default" />
       </form>
     </div>
 
