@@ -52,6 +52,7 @@
         return document.getElementById(id);
       };
       var name = location.search.slice(1).toLocaleUpperCase();
+      document.title = 'Daisylight - ' + name; 
       $name = $('name')
       $name.innerHTML = name
       $name.href = 'http://' + location.host + '/#/lights/' + name;
