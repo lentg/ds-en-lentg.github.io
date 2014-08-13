@@ -53,6 +53,20 @@ video{
   height: 22px;
   text-indent: -9000px;
 }
+.navbar-inverse .navbar-nav>li>a{
+  color: #FFF;
+  font-size: 1.25em;
+  &:hover{
+    background: #666;
+  }
+  &.s {
+    font-size: .75em;
+  }
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+  color: #F00;
+  background-color: #080808;
+}
 
 #wrap > div {
   margin: 2.5em auto;
@@ -414,6 +428,9 @@ video{
   }
   .visible-xs-block {
     text-align: center;
+  }
+  .title-h1{
+    font-size: 1.5em;
   }
   .title-sub {
     font-size: 1.3em;

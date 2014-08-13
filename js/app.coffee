@@ -3,6 +3,12 @@ $ = (id) ->
   document.getElementById id
 
 app = angular.module('daisy', ['ngRoute', 'ui.bootstrap'])
+app.run ($location, $rootScope, $window) ->
+  common = $rootScope.common = $rootScope.common || {
+    clear: ->
+      delete $window.sessionStorage.data
+      $window.location.replace '/'
+  }
 app.config ($routeProvider) ->
     $routeProvider
       .when '/',
@@ -23,30 +29,30 @@ app.config ($routeProvider) ->
       .otherwise
         redirectTo: '/'
 
-app.directive 'ngClear', ($window, $routeParams, $http, Data) ->
-  link: (scope, elm) ->
-    elm.bind 'click', ->
-      store.clear()
-      $http.get('/js/lights.json').success (rs) ->
-        # obj = {}
-        nums = {}
+# app.directive 'ngClear', ($window, $routeParams, $http, Data) ->
+#   link: (scope, elm) ->
+#     elm.bind 'click', ->
+#       store.clear()
+#       $http.get('/js/lights.json').success (rs) ->
+#         # obj = {}
+#         nums = {}
 
-        nums[tag] = 0 for tag in Data.tags
-        nums[cat.k] = 0 for cat in Data.categorys
+#         nums[tag] = 0 for tag in Data.tags
+#         nums[cat.k] = 0 for cat in Data.categorys
         
-        angular.forEach rs, (val) ->
-          nums[val.c] += 1
-          for t in val.ts
-            nums[t] += 1
+#         angular.forEach rs, (val) ->
+#           nums[val.c] += 1
+#           for t in val.ts
+#             nums[t] += 1
           
-        Data.lights = rs
-        Data.nums = nums
-        store.set 'data', [rs, nums]
+#         Data.lights = rs
+#         Data.nums = nums
+#         store.set 'data', [rs, nums]
 
-        scope.$$childHead.lights = rs if scope.$$childHead.lights
-        if name = $routeParams.name
-            angular.forEach rs, (light) ->
-              scope.$$childHead.light = light if light.n is name
+#         scope.$$childHead.lights = rs if scope.$$childHead.lights
+#         if name = $routeParams.name
+#             angular.forEach rs, (light) ->
+#               scope.$$childHead.light = light if light.n is name
 
 app.directive 'demo', (Data) ->
   link: (scope, elm) ->
