@@ -1,0 +1,52 @@
+<div class="row" ng-init="vm.view()">
+  <h1 class="title-h1 hidden-xs">{{ vm.title || 'Lights' }}</h1>
+  <div ng-include src="'/views/_sidebar.html'"></div>
+
+
+  <div class="col-md-9">
+    <!-- show light -->
+    <div class="light">
+
+      <carousel interval="">
+        <slide ng-repeat="img in vm.light.is">
+          <a href="http://daisy.qiniudn.com/{{ img }}-1200x900" target="_blank">
+            <img ng-src="http://daisy.qiniudn.com/{{ img }}-400x300" alt="{{ vm.light.n }}" style="margin:auto;">
+          </a>
+        </slide>
+      </carousel>
+
+      <div class="marks">
+        <a href="/marks/{{ mk }}" class="{{ mk }}" ng-repeat="mk in vm.light.ms" tooltip-placement="bottom" tooltip="{{ vm.marks[mk] }}" >
+        </a>
+      </div>
+      <h3 class="title-sub">
+        Technical Parameters
+      </h3>
+
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <div class="details" bind-html-unsafe="vm.light.be"></div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <a ng-if="vm.light.v" class="play" href="/video.html?{{ vm.light.n }}" target="_blank">
+            <span class="glyphicon glyphicon-play"></span>
+          </a>
+        </div>
+      </div>
+      
+      <h3 class="title-sub">
+        Message
+        <small>Leave a message to US.</small>
+      </h3>
+      <form ng-submit="vm.addMessage(message)">
+        <input ng-model='message.name' placeholder="Name" required>
+        <input type="email" ng-model='message.email' placeholder="Email" required>
+        <input ng-model='message.country' placeholder="Country City">
+        <textarea placeholder="Message" ng-model="message.content" required></textarea>
+        <input type="submit" id="submit" value="Submit Message" class="btn btn-default" />
+      </form>
+    </div>
+
+  </div>
+
+</div>

@@ -8,21 +8,61 @@
     <meta name="viewport" content="width=device-width">
     <style type="text/css">
       body{
-        background: rgb(21,21,21);
-      }
-      h1{
-        margin: 2em auto;
-        text-align: center;
+        background: rgb(31,31,31);
       }
       h1 a{
         color: #FFF;
       }
       .wrap{
+        position: absolute;
+        top: 20%;
         width: 100%;
+      }
+      .footer{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        color: #FFF;
+        background: rgb(0,0,0);
+      }
+      .i3{
+        display: block;
+        float: left;
+        width: 33.33%;
+        height: 100%;
+      }
+      .i3:hover{
+        background-color: #333;
+      }
+      .contact div {
+        margin: 0.5em;
+        padding-left: 5%;
+      }
+      a{color: #FFF;}
+      a#name{
+        display: block;
+        line-height: 64px;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+      }
+      a.logo{
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: url(../img/logo.png) no-repeat center center;
+        text-decoration: none;
+      }
+      @media (max-width: 767px) {
+        .i3{
+          width: 50%;
+        }
       }
       @media (min-width: 767px) {
         .wrap{
-          position: absolute;
           top: 50%;
           left: 50%;
           margin: 0 auto;
@@ -36,14 +76,34 @@
   </head>
 
   <body>
-    <h1>
-      <a href="#" id="name" target="_blank"></a>
-    </h1>
+<!--     <h1>
+      <a href="" id="name" target="_blank"></a>
+    </h1> -->
     <div class="wrap">
       <video width="100%" height="100%" controls="controls" id='play' preload>
         <source id='s' src="#" type="video/mp4">
         Your browser does not support the video tag.
       </video>
+    </div>
+    <div class="footer">
+      <div class="i3">
+        <a class="logo" href="/">　</a>
+      </div>
+      <div class="i3">
+        <a href="" id="name" target="_blank"></a>
+      </div>
+      <div class="i3">
+        <div class="contact">
+          <div>
+            <strong>Skype: </strong>
+            <a href="skype:ampus05?chat">Ampus05</a>
+          </div>
+          <div>
+            <strong>Email: </strong>
+            <a href="mailto:daisylight@vip.163.com">daisylight@vip.163.com</a>
+          </div>
+        </div>
+      </div>
     </div>
 
   <script>
@@ -55,7 +115,7 @@
       document.title = 'Daisylight - ' + name; 
       $name = $('name')
       $name.innerHTML = name
-      $name.href = 'http://' + location.host + '/#/lights/' + name;
+      $name.href = '/lights/' + name;
       $('s').src = 'http://daisy-video.qiniudn.com/' + name + '.mp4';
       $('play').load();
     }

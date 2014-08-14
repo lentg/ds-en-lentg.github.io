@@ -18,25 +18,55 @@ app.run(function($location, $rootScope, $window) {
   };
 });
 
-app.config(function($routeProvider) {
+app.config(function($routeProvider, $locationProvider) {
+  $locationProvider.html5Mode(true).hashPrefix('!');
   return $routeProvider.when('/', {
     templateUrl: '/views/home.html',
-    controller: 'HomeCtrl'
+    controller: 'HomeCtrl',
+    controllerAs: 'vm'
   }).when('/lights', {
     templateUrl: '/views/lights.html',
-    controller: 'LightsCtrl'
+    controller: 'LightsCtrl',
+    controllerAs: 'vm'
   }).when('/lights/:name', {
-    templateUrl: '/views/lights.html',
-    controller: 'LightsCtrl'
+    templateUrl: '/views/light.html',
+    controller: 'LightsCtrl',
+    controllerAs: 'vm'
+  }).when('/tags/:tag', {
+    templateUrl: '/views/tags.html',
+    controller: 'LightsCtrl',
+    controllerAs: 'vm'
+  }).when('/marks/:mark', {
+    templateUrl: '/views/marks.html',
+    controller: 'LightsCtrl',
+    controllerAs: 'vm'
+  }).when('/categories/:category', {
+    templateUrl: '/views/categories.html',
+    controller: 'LightsCtrl',
+    controllerAs: 'vm'
   }).when('/news', {
     templateUrl: '/views/news.html',
-    controller: 'NewsCtrl'
+    controller: 'NewsCtrl',
+    controllerAs: 'vm'
   }).when('/about', {
     templateUrl: '/views/about.html',
-    controller: 'AboutCtrl'
+    controller: 'AboutCtrl',
+    controllerAs: 'vm'
   }).otherwise({
     redirectTo: '/'
   });
+});
+
+app.directive('focus', function($timeout, $location) {
+  return {
+    link: function(scope, elm) {
+      if ('/lights' === $location.path()) {
+        return $timeout(function() {
+          return elm[0].focus();
+        });
+      }
+    }
+  };
 });
 
 app.directive('demo', function(Data) {
@@ -170,7 +200,7 @@ app.factory('Data', function($http) {
 
 app.controller('HomeCtrl', function($scope, $location, Data) {
   $scope.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209', 'ML140-BEAM', 'PF1012'];
-  $scope.says = [
+  return $scope.says = [
     {
       who: 'Mr. Klaus',
       hi: 'One of Germany customer, said: We import products from your company for more than 6 years already because you never disappoint us on quality and delivery time.'
@@ -188,91 +218,97 @@ app.controller('HomeCtrl', function($scope, $location, Data) {
       hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'
     }
   ];
-  return $scope.$on('$routeChangeStart', function(next, current) {
-    var page;
-    page = $location.path();
-    if (page.indexOf('/lights') > -1) {
-      return $('lights').classList.add('active');
-    }
-  });
 });
 
-app.controller('LightsCtrl', function($scope, $routeParams, $anchorScroll, Data) {
-  var name;
-  $scope.lights = Data.lights;
-  $scope.marks = Data.marks;
-  $scope.categorys = Data.categorys;
-  $scope.tags = Data.tags;
-  $scope.nums = Data.nums;
-  $scope.addMessage = function(message) {
-    message.time = new Date().getTime();
-    return Data.addMessage(message).success(function(res) {
-      $anchorScroll();
-      return $scope.message.content = '';
-    });
+app.controller('LightsCtrl', function($routeParams, $location, $anchorScroll, $filter, Data) {
+  var vm;
+  vm = this;
+  $anchorScroll();
+  vm.active = {};
+  vm.marks = Data.marks;
+  vm.categorys = Data.categorys;
+  vm.tags = Data.tags;
+  vm.nums = Data.nums;
+  vm.list = function() {
+    vm.lights = Data.lights;
+    return vm.search = function() {};
   };
-  $scope.setCategory = function(category) {
-    $scope.xx = false;
-    $anchorScroll();
-    $scope.light = '';
-    $scope.search = {
+  vm.categories = function() {
+    var category;
+    vm.xx = false;
+    category = $routeParams.category;
+    vm.lights = $filter('filter')(Data.lights, {
+      c: category
+    });
+    angular.forEach(vm.categorys, function(val) {
+      if (val.k === category) {
+        return vm.title = val.v;
+      }
+    });
+    return vm.active = {
       c: category
     };
-    $scope.title = 'All Lights';
-    return angular.forEach($scope.categorys, function(val) {
-      if (val.k === category) {
-        return $scope.title = val.v;
+  };
+  vm.markss = function() {
+    var mark;
+    mark = $routeParams.mark;
+    vm.lights = $filter('filter')(Data.lights, {
+      ms: mark
+    });
+    return vm.title = "Marks: " + vm.marks[mark];
+  };
+  vm.tagss = function() {
+    var tag;
+    tag = $routeParams.tag;
+    vm.lights = $filter('filter')(Data.lights, {
+      ts: tag
+    });
+    vm.title = "Tags: " + tag;
+    return vm.active = {
+      ts: [tag]
+    };
+  };
+  vm.view = function(name) {
+    name = $routeParams.name;
+    angular.forEach(Data.lights, function(light) {
+      if (light.n === name) {
+        vm.message = {};
+        vm.light = light;
+        vm.title = light.n;
+        return vm.active = {
+          c: light.c,
+          ts: light.ts
+        };
       }
     });
-  };
-  $scope.setMark = function(mk) {
-    $anchorScroll();
-    $scope.light = '';
-    $scope.search = {
-      ms: mk
-    };
-    return $scope.title = "Marks: " + $scope.marks[mk];
-  };
-  $scope.setTag = function(tag) {
-    $anchorScroll();
-    $scope.light = '';
-    $scope.search = {
-      ts: tag
-    };
-    return $scope.title = "Tags: " + tag;
-  };
-  $scope.show = function(light, index) {
-    $anchorScroll();
-    $scope.message = {};
-    $scope.search = {
-      c: light != null ? light.c : void 0,
-      ts: light != null ? light.ts : void 0
-    };
-    $scope.light = light;
-    $scope.title = light != null ? light.n : void 0;
-    $scope.relateds = (angular.copy($scope.lights).sort(function() {
+    vm.relateds = (angular.copy(Data.lights).sort(function() {
       return 0.5 - Math.random();
     })).slice(0, 4);
-    return $scope.send = function(message) {
-      console.log(message);
-      return $scope.message.content = '';
+    return vm.addMessage = function(message) {
+      message.time = new Date().getTime();
+      return Data.addMessage(message).success(function(res) {
+        alert('Message send success. We will contact you as soon as possible.');
+        return message.content = '';
+      });
     };
   };
-  if (name = $routeParams.name) {
-    return angular.forEach($scope.lights, function(val) {
-      if (val.n === name) {
-        return $scope.show(val);
-      }
-    });
-  }
+  vm.search = function() {
+    return $location.path('lights');
+  };
+  return vm;
 });
 
 app.controller('NewsCtrl', function($scope) {
-  return console.log('news...');
+  var vm;
+  vm = this;
+  vm.news = 'news...';
+  return vm;
 });
 
-app.controller('AboutCtrl', function($scope, Data) {
-  return $scope.slides = [
+app.controller('AboutCtrl', function() {
+  var vm;
+  vm = this;
+  vm.slides = [
     {
       img: 1,
       desc: 'The workshop'
@@ -302,4 +338,5 @@ app.controller('AboutCtrl', function($scope, Data) {
       desc: 'Lighting show'
     }
   ];
+  return vm;
 });

@@ -9,50 +9,57 @@ app.run ($location, $rootScope, $window) ->
       delete $window.sessionStorage.data
       $window.location.replace '/'
   }
-app.config ($routeProvider) ->
-    $routeProvider
-      .when '/',
-        templateUrl: '/views/home.html'
-        controller: 'HomeCtrl'
-      .when '/lights',
-        templateUrl: '/views/lights.html'
-        controller: 'LightsCtrl'
-      .when '/lights/:name',
-        templateUrl: '/views/lights.html'
-        controller: 'LightsCtrl'
-      .when '/news',
-        templateUrl: '/views/news.html'
-        controller: 'NewsCtrl'
-      .when '/about',
-        templateUrl: '/views/about.html'
-        controller: 'AboutCtrl'
-      .otherwise
-        redirectTo: '/'
+  # $rootScope.$on '$routeChangeSuccess', (event, current, previous) ->
+  #   currentCtrl = current.controller.substring(0, current.controller.indexOf('Ctrl')).toLowerCase();
+  #   $rootScope.common.active[currentCtrl] = 'active'
+  #   if previous
+  #     previousCtrl = previous.controller.substring(0, previous.controller.indexOf('Ctrl')).toLowerCase()
+  #     delete $rootScope.common.active[previousCtrl];
+  #     console.log previousCtrl    
 
-# app.directive 'ngClear', ($window, $routeParams, $http, Data) ->
-#   link: (scope, elm) ->
-#     elm.bind 'click', ->
-#       store.clear()
-#       $http.get('/js/lights.json').success (rs) ->
-#         # obj = {}
-#         nums = {}
+app.config ($routeProvider, $locationProvider) ->
+  $locationProvider.html5Mode(true).hashPrefix('!')
+  $routeProvider
+    .when '/',
+      templateUrl: '/views/home.html'
+      controller: 'HomeCtrl'
+      controllerAs: 'vm'
+    .when '/lights',
+      templateUrl: '/views/lights.html'
+      controller: 'LightsCtrl'
+      controllerAs: 'vm'
+    .when '/lights/:name',
+      templateUrl: '/views/light.html'
+      controller: 'LightsCtrl'
+      controllerAs: 'vm'
+    .when '/tags/:tag',
+      templateUrl: '/views/tags.html'
+      controller: 'LightsCtrl'
+      controllerAs: 'vm'
+    .when '/marks/:mark',
+      templateUrl: '/views/marks.html'
+      controller: 'LightsCtrl'
+      controllerAs: 'vm'
+    .when '/categories/:category',
+      templateUrl: '/views/categories.html'
+      controller: 'LightsCtrl'
+      controllerAs: 'vm'
+    .when '/news',
+      templateUrl: '/views/news.html'
+      controller: 'NewsCtrl'
+      controllerAs: 'vm'
+    .when '/about',
+      templateUrl: '/views/about.html'
+      controller: 'AboutCtrl'
+      controllerAs: 'vm'
+    .otherwise
+      redirectTo: '/'
 
-#         nums[tag] = 0 for tag in Data.tags
-#         nums[cat.k] = 0 for cat in Data.categorys
-        
-#         angular.forEach rs, (val) ->
-#           nums[val.c] += 1
-#           for t in val.ts
-#             nums[t] += 1
-          
-#         Data.lights = rs
-#         Data.nums = nums
-#         store.set 'data', [rs, nums]
-
-#         scope.$$childHead.lights = rs if scope.$$childHead.lights
-#         if name = $routeParams.name
-#             angular.forEach rs, (light) ->
-#               scope.$$childHead.light = light if light.n is name
+app.directive 'focus', ($timeout, $location) ->
+  link: (scope, elm) ->
+    if '/lights' is $location.path()
+      $timeout ->
+        elm[0].focus()
 
 app.directive 'demo', (Data) ->
   link: (scope, elm) ->
@@ -126,68 +133,67 @@ app.controller 'HomeCtrl', ($scope, $location, Data) ->
     {who: 'Miss Anita', hi: 'One of Spain customer, said: 2 years ago, we were a new company and do not know products and market very well. But you still support us and help us to develop market. You are our the best partner in China!'}    
     {who: 'Mr. Sveta', hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'}    
   ]
-  $scope.$on '$routeChangeStart', (next, current) ->
-    page = $location.path()
-    if page.indexOf('/lights') > -1
-      $('lights').classList.add('active') 
-      # document.getElementById('lights').classList.add('active')
 
-app.controller 'LightsCtrl', ($scope, $routeParams, $anchorScroll, Data) ->
-  $scope.lights = Data.lights
-  $scope.marks = Data.marks
-  $scope.categorys = Data.categorys
-  $scope.tags = Data.tags 
-  $scope.nums = Data.nums
+app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, Data) ->
+  vm = this
+  $anchorScroll()
+  vm.active = {}
+  vm.marks = Data.marks
+  vm.categorys = Data.categorys
+  vm.tags = Data.tags 
+  vm.nums = Data.nums
 
-  $scope.addMessage = (message) ->
-    message.time = new Date().getTime()# "#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()}"
-    Data.addMessage(message).success (res) ->
-      $anchorScroll()
-      $scope.message.content = ''
+  vm.list = ->
+    vm.lights = Data.lights
+    vm.search = ->
   
+  vm.categories = ->
+    vm.xx = false
+    category = $routeParams.category
+    vm.lights = $filter('filter')(Data.lights, c: category)
+    angular.forEach vm.categorys, (val) -> vm.title = val.v if val.k is category
+    vm.active = c: category
+
+  vm.markss = ->
+    mark = $routeParams.mark
+    vm.lights = $filter('filter')(Data.lights, ms: mark)
+    vm.title = "Marks: #{vm.marks[mark]}"
+
+  vm.tagss = ->
+    tag = $routeParams.tag
+    vm.lights = $filter('filter')(Data.lights, ts: tag)
+    vm.title = "Tags: #{tag}"
+    vm.active = ts: [tag]
+
+  vm.view = (name) ->
+    name = $routeParams.name
+    angular.forEach Data.lights, (light) ->
+      if light.n is name
+        vm.message = {}
+        vm.light = light
+        vm.title = light.n
+        vm.active = c: light.c, ts: light.ts
+    vm.relateds = (angular.copy(Data.lights).sort -> 0.5 - Math.random()).slice 0, 4
+
+    vm.addMessage = (message) ->
+      message.time = new Date().getTime()
+      Data.addMessage(message).success (res) ->
+        alert 'Message send success. We will contact you as soon as possible.'
+        message.content = ''
   
+  vm.search = ->
+    $location.path 'lights'
 
-  $scope.setCategory = (category) ->
-    $scope.xx = false
-    $anchorScroll()
-    $scope.light = ''
-    $scope.search = c: category
-    $scope.title = 'All Lights'
-    angular.forEach $scope.categorys, (val) -> $scope.title = val.v if val.k is category
-  
-  $scope.setMark = (mk) ->
-    $anchorScroll()
-    $scope.light = ''
-    $scope.search = ms: mk
-    $scope.title = "Marks: #{$scope.marks[mk]}"
-  $scope.setTag = (tag) ->
-    $anchorScroll()
-    $scope.light = ''
-    $scope.search = ts: tag
-    $scope.title = "Tags: #{tag}"
-  
-  $scope.show = (light, index) ->
-    $anchorScroll()
-    $scope.message = {}
-    $scope.search = c: light?.c, ts: light?.ts
-    $scope.light = light
-    $scope.title = light?.n
-    # $scope.relateds = shuffle $scope.lights, 4
-    $scope.relateds = (angular.copy($scope.lights).sort -> 0.5 - Math.random()).slice 0, 4
+  vm
 
-
-    $scope.send = (message) ->
-      console.log message
-      $scope.message.content = ''
-
-  if name = $routeParams.name
-    angular.forEach $scope.lights, (val) -> $scope.show(val) if val.n is name
-        
 app.controller 'NewsCtrl', ($scope) ->
-  console.log 'news...'
+  vm = this
+  vm.news = 'news...'
+  vm
 
-app.controller 'AboutCtrl', ($scope, Data) ->
-  $scope.slides = [
+app.controller 'AboutCtrl', ->
+  vm = this
+  vm.slides = [
     {img: 1, desc: 'The workshop'}
     # {img: 2, desc: 'The workshop 2'}
     {img: 3, desc: 'Single chip microcomputer'}
@@ -200,4 +206,5 @@ app.controller 'AboutCtrl', ($scope, Data) ->
     {img: 10, desc: 'Aging test'}
     {img: 11, desc: 'Lighting show'}
   ]
+  vm
 

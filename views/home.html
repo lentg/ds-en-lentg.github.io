@@ -10,26 +10,21 @@
         <span class="glyphicon glyphicon-play"></span>
         <div>What's Daisy Lingting?</div>
       </a>
-    <!-- <video id='video' width="320" height="240" ng-src="http://daisy-video.qiniudn.com/Alibaba.mp4" controls="controls" preload='none'></video> -->
   </div>
 </div>
 <br>
 <carousel interval="2500">
   <slide ng-repeat="val in ['ML-Q1507-STEPLESS', 'ML-ZQ1519', 'PF1012']">
-    <a href="#/lights/{{ val }}">
+    <a href="/lights/{{ val }}">
       <img ng-src="/img/home/{{ val }}.jpg" style="margin:auto;">
     </a>
-<!--     <div class="carousel-caption">
-      <h4>Slide {{$index}}</h4>
-      <p>...</p>
-    </div> -->
   </slide>
 </carousel>
 
 <h2 class="title-sub">New</h2>
 <div class="row tops">
   <div als class="col-xs-6 col-md-2" ng-repeat="light in tops">
-    <a class="thumbnail" ng-click="show(light)" href="#/lights/{{ light }}">
+    <a class="thumbnail" ng-click="show(light)" href="/lights/{{ light }}">
       <img ng-src="http://daisy.qiniudn.com/{{ light }}-1.jpg-400x300" alt="{{ light }}">
     </a>
     <div class="name">{{ light }}</div>
