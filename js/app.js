@@ -52,8 +52,6 @@ app.config(function($routeProvider, $locationProvider) {
     templateUrl: '/views/about.html',
     controller: 'AboutCtrl',
     controllerAs: 'vm'
-  }).otherwise({
-    redirectTo: '/'
   });
 });
 

@@ -52,8 +52,8 @@ app.config ($routeProvider, $locationProvider) ->
       templateUrl: '/views/about.html'
       controller: 'AboutCtrl'
       controllerAs: 'vm'
-    .otherwise
-      redirectTo: '/'
+    # .otherwise
+    #   redirectTo: '/'
 
 app.directive 'focus', ($timeout, $location) ->
   link: (scope, elm) ->
