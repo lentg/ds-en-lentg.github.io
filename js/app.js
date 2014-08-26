@@ -8,14 +8,10 @@ $ = function(id) {
 
 app = angular.module('daisy', ['ngRoute', 'ui.bootstrap']);
 
-app.run(function($location, $rootScope, $window) {
-  var common;
-  return common = $rootScope.common = $rootScope.common || {
-    clear: function() {
-      delete $window.sessionStorage.data;
-      return $window.location.replace('/');
-    }
-  };
+app.run(function($location) {
+  var page;
+  page = $($location.path().split('/')[1]);
+  return typeof $page !== "undefined" && $page !== null ? $page.classList.add('active') : void 0;
 });
 
 app.config(function($routeProvider, $locationProvider) {
@@ -112,7 +108,7 @@ app.directive('xx', function($location) {
   };
 });
 
-app.factory('Data', function($http) {
+app.factory('Data', function($http, $window) {
   var data, obj;
   obj = {};
   obj.tags = ['1W', '3W', '8W', '10W', '12W', '15W', '25W', 'Other', 'PAR46', 'PAR64', 'PAR575', 'Flat PAR', 'INDOOR', 'OUTDOOR', 'FULL COLOR', 'SINGLE COLOR'];
@@ -159,9 +155,10 @@ app.factory('Data', function($http) {
   obj.addMessage = function(message) {
     return $http.post('https://daisylight.firebaseio.com/messages.json', JSON.stringify(message));
   };
-  if (!store.get('data')) {
+  if (!$window.sessionStorage.data) {
     $http.get('/js/lights.json').success(function(rs) {
       var cat, nums, tag, _i, _j, _len, _len1, _ref, _ref1;
+      console.log('...........');
       nums = {};
       _ref = obj.tags;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -186,10 +183,10 @@ app.factory('Data', function($http) {
       });
       obj.lights = rs;
       obj.nums = nums;
-      return store.set('data', [rs, nums]);
+      return $window.sessionStorage.data = JSON.stringify([rs, nums]);
     });
   } else {
-    data = store.get('data');
+    data = JSON.parse($window.sessionStorage.data || '[]');
     obj.lights = data[0];
     obj.nums = data[1];
   }
