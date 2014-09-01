@@ -165,9 +165,9 @@ app.factory 'Data', ($http, $window) ->
 
 
 
-app.controller 'HomeCtrl', ($location, Data) ->
+app.controller 'HomeCtrl', ($location, $anchorScroll, Data) ->
   vm = this
-  # $anchorScroll()
+  $anchorScroll()
   vm.active = {}
   vm.marks = Data.marks
   vm.categorys = Data.categorys

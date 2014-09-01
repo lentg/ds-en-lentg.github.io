@@ -198,9 +198,10 @@ app.factory('Data', function($http, $window) {
   return obj;
 });
 
-app.controller('HomeCtrl', function($location, Data) {
+app.controller('HomeCtrl', function($location, $anchorScroll, Data) {
   var vm;
   vm = this;
+  $anchorScroll();
   vm.active = {};
   vm.marks = Data.marks;
   vm.categorys = Data.categorys;
