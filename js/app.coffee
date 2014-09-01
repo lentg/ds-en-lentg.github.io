@@ -21,7 +21,7 @@ app.run ($location) ->
   #     console.log previousCtrl    
 
 app.config ($routeProvider, $locationProvider) ->
-  $locationProvider.html5Mode(true).hashPrefix('!')
+  # $locationProvider.html5Mode(true).hashPrefix('!')
   $routeProvider
     .when '/',
       templateUrl: '/views/home.html'
@@ -70,14 +70,20 @@ app.directive 'focus', ($timeout, $location) ->
     if '/lights' is $location.path()
       $timeout ->
         elm[0].focus()
+    else
+      elm.bind 'focus', ->
+        $timeout ->
+          $location.path 'lights'
+
 
 app.directive 'demo', (Data) ->
   link: (scope, elm) ->
     elm.bind 'click', ->
       scope.$$childHead.show?(null)
       scope.$apply()
-      
 
+  
+  
 app.directive 'x', ($location) ->
   link: (scope, elm) ->
     elm.find('a').eq(0).bind 'click', ->
@@ -159,15 +165,23 @@ app.factory 'Data', ($http, $window) ->
 
 
 
-app.controller 'HomeCtrl', ($scope, $location, Data) ->
-  $scope.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209', 'ML140-BEAM', 'PF1012']
-  $scope.says = [
+app.controller 'HomeCtrl', ($location, Data) ->
+  vm = this
+  # $anchorScroll()
+  vm.active = {}
+  vm.marks = Data.marks
+  vm.categorys = Data.categorys
+  vm.tags = Data.tags 
+  vm.nums = Data.nums
+  vm.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209']
+  vm.says = [
     {who: 'Mr. Klaus', hi:'One of Germany customer, said: We import products from your company for more than 6 years already because you never disappoint us on quality and delivery time.'}
     {who: 'Mr. Stephen', hi: 'One of USA customer, said: I buy goods from China many years but I never meet any company like your company efficient. Every email I sent will be detailed reply by you within 10 minutes. Always I can get information from you in time.'}    
     {who: 'Mr. Hong', hi: 'One of South Korea customer, said: you save many times for me because I almost have not got complain from my customers again since we import Cases from your company.'}    
     {who: 'Miss Anita', hi: 'One of Spain customer, said: 2 years ago, we were a new company and do not know products and market very well. But you still support us and help us to develop market. You are our the best partner in China!'}    
     {who: 'Mr. Sveta', hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'}    
   ]
+  vm
 
 app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, Data) ->
   vm = this
@@ -216,8 +230,8 @@ app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, D
         alert 'Message send success. We will contact you as soon as possible.'
         message.content = ''
   
-  vm.search = ->
-    $location.path 'lights'
+  # vm.search = ->
+  #   $location.path 'lights'
 
   vm
 

@@ -15,7 +15,6 @@ app.run(function($location) {
 });
 
 app.config(function($routeProvider, $locationProvider) {
-  $locationProvider.html5Mode(true).hashPrefix('!');
   return $routeProvider.when('/', {
     templateUrl: '/views/home.html',
     controller: 'HomeCtrl',
@@ -57,6 +56,12 @@ app.directive('focus', function($timeout, $location) {
       if ('/lights' === $location.path()) {
         return $timeout(function() {
           return elm[0].focus();
+        });
+      } else {
+        return elm.bind('focus', function() {
+          return $timeout(function() {
+            return $location.path('lights');
+          });
         });
       }
     }
@@ -193,9 +198,16 @@ app.factory('Data', function($http, $window) {
   return obj;
 });
 
-app.controller('HomeCtrl', function($scope, $location, Data) {
-  $scope.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209', 'ML140-BEAM', 'PF1012'];
-  return $scope.says = [
+app.controller('HomeCtrl', function($location, Data) {
+  var vm;
+  vm = this;
+  vm.active = {};
+  vm.marks = Data.marks;
+  vm.categorys = Data.categorys;
+  vm.tags = Data.tags;
+  vm.nums = Data.nums;
+  vm.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209'];
+  vm.says = [
     {
       who: 'Mr. Klaus',
       hi: 'One of Germany customer, said: We import products from your company for more than 6 years already because you never disappoint us on quality and delivery time.'
@@ -213,6 +225,7 @@ app.controller('HomeCtrl', function($scope, $location, Data) {
       hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'
     }
   ];
+  return vm;
 });
 
 app.controller('LightsCtrl', function($routeParams, $location, $anchorScroll, $filter, Data) {
@@ -286,9 +299,6 @@ app.controller('LightsCtrl', function($routeParams, $location, $anchorScroll, $f
         return message.content = '';
       });
     };
-  };
-  vm.search = function() {
-    return $location.path('lights');
   };
   return vm;
 });

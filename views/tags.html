@@ -1,21 +1,5 @@
 <div class="row" ng-init="vm.tagss()">
   <h1 class="title-h1 hidden-xs">{{ vm.title }}</h1>
-  <!-- <div ng-include src="'/_sidebar.html'"></div> -->
   <div ng-include=" 'sidebar.htm' "></div>
-
-  <div class="col-md-9">
-    <h1 class="title-sub visible-xs-block">{{ vm.title }}</h1>
-    <!-- lists lights -->
-    <div class="row lists">
-      <div class="col-xs-6 col-md-4" ng-repeat="light in vm.lights | orderBy : 's': true ">
-        <a class="thumbnail" href="/lights/{{ light.n }}">
-          <img ng-src="http://daisy.qiniudn.com/{{ light.is[0] }}-400x300" alt="{{ light.n }}">
-        </a>
-        <div class="name">{{ light.n }}</div>
-        <div class="desc" title="{{ light.de }}">{{ light.de }}</div>
-
-      </div>
-    </div>
-  </div>
-
+  <div ng-include=" '_light.htm' "></div>
 </div>
