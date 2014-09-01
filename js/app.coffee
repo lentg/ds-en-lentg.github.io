@@ -76,13 +76,11 @@ app.directive 'focus', ($timeout, $location) ->
           $location.path 'lights'
 
 
-app.directive 'demo', (Data) ->
-  link: (scope, elm) ->
-    elm.bind 'click', ->
-      scope.$$childHead.show?(null)
-      scope.$apply()
-
-  
+# app.directive 'demo', (Data) ->
+#   link: (scope, elm) ->
+#     elm.bind 'click', ->
+#       scope.$$childHead.show?(null)
+#       scope.$apply()
   
 app.directive 'x', ($location) ->
   link: (scope, elm) ->
@@ -165,7 +163,7 @@ app.factory 'Data', ($http, $window) ->
 
 
 
-app.controller 'HomeCtrl', ($location, $anchorScroll, Data) ->
+app.controller 'HomeCtrl', ($scope, $location, $anchorScroll, Data) ->
   vm = this
   $anchorScroll()
   vm.active = {}
@@ -181,6 +179,9 @@ app.controller 'HomeCtrl', ($location, $anchorScroll, Data) ->
     {who: 'Miss Anita', hi: 'One of Spain customer, said: 2 years ago, we were a new company and do not know products and market very well. But you still support us and help us to develop market. You are our the best partner in China!'}    
     {who: 'Mr. Sveta', hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'}    
   ]
+  $scope.$on '$routeChangeStart', (event, current, previous) ->
+    currentCtrl = current.controller.substring(0, current.controller.indexOf('Ctrl')).toLowerCase();
+    $('lights').classList.add 'active' if currentCtrl is 'lights'
   vm
 
 app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, Data) ->

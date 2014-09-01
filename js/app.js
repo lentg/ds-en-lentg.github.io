@@ -68,20 +68,6 @@ app.directive('focus', function($timeout, $location) {
   };
 });
 
-app.directive('demo', function(Data) {
-  return {
-    link: function(scope, elm) {
-      return elm.bind('click', function() {
-        var _base;
-        if (typeof (_base = scope.$$childHead).show === "function") {
-          _base.show(null);
-        }
-        return scope.$apply();
-      });
-    }
-  };
-});
-
 app.directive('x', function($location) {
   return {
     link: function(scope, elm) {
@@ -198,7 +184,7 @@ app.factory('Data', function($http, $window) {
   return obj;
 });
 
-app.controller('HomeCtrl', function($location, $anchorScroll, Data) {
+app.controller('HomeCtrl', function($scope, $location, $anchorScroll, Data) {
   var vm;
   vm = this;
   $anchorScroll();
@@ -226,6 +212,13 @@ app.controller('HomeCtrl', function($location, $anchorScroll, Data) {
       hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'
     }
   ];
+  $scope.$on('$routeChangeStart', function(event, current, previous) {
+    var currentCtrl;
+    currentCtrl = current.controller.substring(0, current.controller.indexOf('Ctrl')).toLowerCase();
+    if (currentCtrl === 'lights') {
+      return $('lights').classList.add('active');
+    }
+  });
   return vm;
 });
 
