@@ -47,14 +47,15 @@
     </div>
 
 
-
-    <carousel interval="2500">
-      <slide ng-repeat="val in ['ML-Q1507-STEPLESS', 'ML-ZQ1519', 'PF1012']">
-        <a href="#/lights/{{ val }}">
-          <img ng-src="/img/home/{{ val }}.jpg" style="margin:auto;">
-        </a>
-      </slide>
-    </carousel>
+    <div id="carousel">
+      <carousel interval="2500">
+        <slide ng-repeat="val in ['ML-Q1507-STEPLESS', 'ML-ZQ1519', 'PF1012']">
+          <a href="#/lights/{{ val }}">
+            <img ng-src="/img/home/{{ val }}.jpg" style="margin:auto;">
+          </a>
+        </slide>
+      </carousel>
+    </div>
 
     <h2 class="title-sub">New</h2>
     <div class="row tops">
