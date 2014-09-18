@@ -28,27 +28,27 @@ app.config ($routeProvider, $locationProvider) ->
       controller: 'HomeCtrl'
       controllerAs: 'vm'
     .when '/lights',
-      templateUrl: '/views/lights.html'
+      templateUrl: 'lightsTmpl'
       controller: 'LightsCtrl'
       controllerAs: 'vm'
     .when '/lights/:name',
-      templateUrl: '/views/light.html'
+      templateUrl: 'lightTmpl'
       controller: 'LightsCtrl'
       controllerAs: 'vm'
     .when '/tags/:tag',
-      templateUrl: '/views/tags.html'
+      templateUrl: 'tagsTmpl'
       controller: 'LightsCtrl'
       controllerAs: 'vm'
     .when '/marks/:mark',
-      templateUrl: '/views/marks.html'
+      templateUrl: 'marksTmpl'
       controller: 'LightsCtrl'
       controllerAs: 'vm'
     .when '/categories/:category',
-      templateUrl: '/views/categories.html'
+      templateUrl: 'categoryTmpl'
       controller: 'LightsCtrl'
       controllerAs: 'vm'
     .when '/news',
-      templateUrl: '/views/news.html'
+      templateUrl: 'NewsTmpl'
       controller: 'NewsCtrl'
       controllerAs: 'vm'
     .when '/about',
@@ -114,9 +114,9 @@ app.factory 'Data', ($http, $window) ->
 
   obj.addMessage = (message) ->
     $http.post('https://daisylight.firebaseio.com/messages.json', JSON.stringify(message))
-    # new Firebase('https://flickering-fire-6969.firebaseio.com/').push message
 
-  if !$window.sessionStorage.data
+  if !$window.localStorage.data
+    obj.lights = []
     $http.get('/js/lights.json').success (rs) ->
       console.log '...........'
       nums = {}
@@ -130,36 +130,12 @@ app.factory 'Data', ($http, $window) ->
         
       obj.lights = rs
       obj.nums = nums
-      $window.sessionStorage.data = JSON.stringify [rs, nums]
-      # store.set 'data', [rs, nums]
+      $window.localStorage.data = JSON.stringify [rs, nums]
   else
-    data = JSON.parse $window.sessionStorage.data || '[]'
-    # data = store.get 'data'
+    data = JSON.parse $window.localStorage.data
     obj.lights = data[0]
     obj.nums = data[1]
   obj
-
-
-
-  # if !store.get 'data'
-  #   $http.get('/js/lights.json').success (rs) ->
-  #     nums = {}
-  #     nums[tag] = 0 for tag in obj.tags
-  #     nums[cat.k] = 0 for cat in obj.categorys
-      
-  #     angular.forEach rs, (val) ->
-  #       nums[val.c] += 1
-  #       for t in val.ts
-  #         nums[t] += 1
-        
-  #     obj.lights = rs
-  #     obj.nums = nums
-  #     store.set 'data', [rs, nums]
-  # else
-  #   data = store.get 'data'
-  #   obj.lights = data[0]
-  #   obj.nums = data[1]
-  # obj
 
 
 
@@ -184,7 +160,7 @@ app.controller 'HomeCtrl', ($scope, $location, $anchorScroll, Data) ->
     $('lights').classList.add 'active' if currentCtrl is 'lights'
   vm
 
-app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, Data) ->
+app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, $timeout, $interval, Data) ->
   vm = this
   $anchorScroll()
   vm.active = {}
@@ -194,8 +170,12 @@ app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, D
   vm.nums = Data.nums
 
   vm.list = ->
-    vm.lights = Data.lights
-    vm.search = ->
+    run = $interval ->
+      if Data.lights[0]
+        vm.lights = Data.lights
+        vm.search = ->
+        $interval.cancel run
+    , 100
   
   vm.categories = ->
     vm.xx = false
@@ -216,29 +196,30 @@ app.controller 'LightsCtrl', ($routeParams, $location, $anchorScroll, $filter, D
     vm.active = ts: [tag]
 
   vm.view = (name) ->
-    name = $routeParams.name
-    angular.forEach Data.lights, (light) ->
-      if light.n is name
-        vm.message = {}
-        vm.light = light
-        vm.title = light.n
-        vm.active = c: light.c, ts: light.ts
-    vm.relateds = (angular.copy(Data.lights).sort -> 0.5 - Math.random()).slice 0, 4
-
-    vm.addMessage = (message) ->
-      message.time = new Date().getTime()
-      Data.addMessage(message).success (res) ->
-        alert 'Message send success. We will contact you as soon as possible.'
-        message.content = ''
+    run = $interval ->
+      if Data.lights[0]
+        name = $routeParams.name
+        angular.forEach Data.lights, (light) ->
+          if light.n is name
+            vm.message = {}
+            vm.light = light
+            vm.title = light.n
+            vm.active = c: light.c, ts: light.ts
+            vm.relateds = (angular.copy(Data.lights).sort -> 0.5 - Math.random()).slice 0, 4
+            $interval.cancel run
+            vm.addMessage = (message) ->
+              message.time = new Date().getTime()
+              Data.addMessage(message).success (res) ->
+                alert 'Message send success. We will contact you as soon as possible.'
+                message.content = ''
+    , 10
   
-  # vm.search = ->
-  #   $location.path 'lights'
-
   vm
 
 app.controller 'NewsCtrl', ($scope) ->
   vm = this
-  vm.news = 'news...'
+  vm.list = ->
+    vm.news = 'news...'
   vm
 
 app.controller 'AboutCtrl', ->
