@@ -143,45 +143,44 @@ app.factory('Data', function($http, $window) {
       v: 'Other'
     }
   ];
+  obj.lights = [];
   obj.addMessage = function(message) {
     return $http.post('https://daisylight.firebaseio.com/messages.json', JSON.stringify(message));
   };
-  if (!$window.localStorage.data) {
-    obj.lights = [];
-    $http.get('/js/lights.json').success(function(rs) {
-      var cat, nums, tag, _i, _j, _len, _len1, _ref, _ref1;
-      console.log('...........');
-      nums = {};
-      _ref = obj.tags;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        tag = _ref[_i];
-        nums[tag] = 0;
-      }
-      _ref1 = obj.categorys;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        cat = _ref1[_j];
-        nums[cat.k] = 0;
-      }
-      angular.forEach(rs, function(val) {
-        var t, _k, _len2, _ref2, _results;
-        nums[val.c] += 1;
-        _ref2 = val.ts;
-        _results = [];
-        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-          t = _ref2[_k];
-          _results.push(nums[t] += 1);
-        }
-        return _results;
-      });
-      obj.lights = rs;
-      obj.nums = nums;
-      return $window.localStorage.data = JSON.stringify([rs, nums]);
-    });
-  } else {
+  if ($window.localStorage.data) {
     data = JSON.parse($window.localStorage.data);
     obj.lights = data[0];
     obj.nums = data[1];
   }
+  $http.get('/js/lights.json').success(function(rs) {
+    var cat, nums, tag, _i, _j, _len, _len1, _ref, _ref1;
+    console.log('...........');
+    nums = {};
+    _ref = obj.tags;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      tag = _ref[_i];
+      nums[tag] = 0;
+    }
+    _ref1 = obj.categorys;
+    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+      cat = _ref1[_j];
+      nums[cat.k] = 0;
+    }
+    angular.forEach(rs, function(val) {
+      var t, _k, _len2, _ref2, _results;
+      nums[val.c] += 1;
+      _ref2 = val.ts;
+      _results = [];
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        t = _ref2[_k];
+        _results.push(nums[t] += 1);
+      }
+      return _results;
+    });
+    obj.lights = rs;
+    obj.nums = nums;
+    return $window.localStorage.data = JSON.stringify([rs, nums]);
+  });
   return obj;
 });
 

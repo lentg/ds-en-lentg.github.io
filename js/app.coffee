@@ -112,29 +112,30 @@ app.factory 'Data', ($http, $window) ->
     {k: 'other', v: 'Other'}
   ]
 
+  obj.lights = []
   obj.addMessage = (message) ->
     $http.post('https://daisylight.firebaseio.com/messages.json', JSON.stringify(message))
 
-  if !$window.localStorage.data
-    obj.lights = []
-    $http.get('/js/lights.json').success (rs) ->
-      console.log '...........'
-      nums = {}
-      nums[tag] = 0 for tag in obj.tags
-      nums[cat.k] = 0 for cat in obj.categorys
-      
-      angular.forEach rs, (val) ->
-        nums[val.c] += 1
-        for t in val.ts
-          nums[t] += 1
-        
-      obj.lights = rs
-      obj.nums = nums
-      $window.localStorage.data = JSON.stringify [rs, nums]
-  else
+  if $window.localStorage.data
     data = JSON.parse $window.localStorage.data
     obj.lights = data[0]
     obj.nums = data[1]
+
+  $http.get('/js/lights.json').success (rs) ->
+    console.log '...........'
+    nums = {}
+    nums[tag] = 0 for tag in obj.tags
+    nums[cat.k] = 0 for cat in obj.categorys
+    
+    angular.forEach rs, (val) ->
+      nums[val.c] += 1
+      for t in val.ts
+        nums[t] += 1
+      
+    obj.lights = rs
+    obj.nums = nums
+    $window.localStorage.data = JSON.stringify [rs, nums]
+  # else
   obj
 
 
