@@ -184,15 +184,10 @@ app.factory('Data', function($http, $window) {
   return obj;
 });
 
-app.controller('HomeCtrl', function($scope, $location, $anchorScroll, Data) {
+app.controller('HomeCtrl', function($scope, $location) {
   var vm;
-  vm = this;
-  $anchorScroll();
+  vm = thnchorScroll();
   vm.active = {};
-  vm.marks = Data.marks;
-  vm.categorys = Data.categorys;
-  vm.tags = Data.tags;
-  vm.nums = Data.nums;
   vm.tops = ['CT80', 'PS1212', 'LF2512', 'AWS1209'];
   vm.says = [
     {
@@ -212,13 +207,6 @@ app.controller('HomeCtrl', function($scope, $location, $anchorScroll, Data) {
       hi: 'From Russia company, said: I can keep strong competitiveness in big Russia market these years because of your good quality and competitive price. Could you please do not sell the goods to another Russia company for to keep our company competitive?'
     }
   ];
-  $scope.$on('$routeChangeStart', function(event, current, previous) {
-    var currentCtrl;
-    currentCtrl = current.controller.substring(0, current.controller.indexOf('Ctrl')).toLowerCase();
-    if (currentCtrl === 'lights') {
-      return $('lights').classList.add('active');
-    }
-  });
   return vm;
 });
 
