@@ -1,5 +1,261 @@
-<div class="row" ng-init="vm.list()">
-  <h1 class="title-h1 hidden-xs">{{ vm.title || 'Lights' }}</h1>
-  <div ng-include=" 'sidebar.htm' "></div>
-  <div ng-include=" '_light.htm' "></div>
+
+
+<div class="lights" id="lights">
+  <div id="ltop"></div>
+  <div id="aa"></div>
+  <nav>
+    <div class="logo">
+      <a href="/"></a>
+    </div>
+    <div class="lang"><a href="/">中文</a></div>
+    <ul class="menu" ng-class="{'active': vm.open}" >
+      <li class="select" ng-click="vm.open=!vm.open">{{ vm.c || 'ALL' }}</li>
+      <li ng-class="{'active': !vm.q.c}" ng-click="vm.category('')">All</li>
+      <li ng-class="{'active': vm.q.c=='par'}" ng-click="vm.category('par')">LED Par</li>
+      <li ng-class="{'active': vm.q.c=='washer'}" ng-click="vm.category('washer')">LED Wall Washer</li>
+      <li ng-class="{'active': vm.q.c=='moving'}" ng-click="vm.category('moving')">Moving Heads</li>
+      <li ng-class="{'active': vm.q.c=='city'}" ng-click="vm.category('city')">City Color</li>
+      <li ng-class="{'active': vm.q.c=='other'}" ng-click="vm.category('other')">Other</li>
+      <li ng-click="vm.about=true; vm.open=false">About</li>
+    </ul>
+  </nav>
+
+  <ul class="row list">
+    <li class="col-3 col-sj-2" ng-repeat="light in vm.lights | filter: vm.q | orderBy:'-s'" >
+      <a href="" class="thumbnail" ng-click="vm.view(light)">
+        <img ng-src="http://daisy.qiniudn.com/{{ light.is[0] }}-400x300" alt="{{ light.n }}">
+      </a>
+      <div class="name">{{ light.n }}</div>
+      <div class="desc">{{ light.de }}</div>
+    </li>
+  </ul>
+  <hr>
+  <p class="txt-center">
+    Copyright 2006-2011 <a href="http://www.daisylight.com">daisylight</a> Co. Ltd. All rights reserved
+    <br>
+    <br>
+  </p>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<article ng-class="{'active': vm.on}">
+  <div class="article-header">
+    <div class="logo" ng-click="vm.closes()"></div>
+    <div class="close" ng-click="vm.closes()">
+      <span class="menu-toggle">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </span>
+    </div>
+    <div class="lang"><a href="/">中文</a></div>
+  </div>
+
+  <h1>
+    {{ vm.light.n }}
+    <small ng-click="vm.closes();vm.category(vm.light.c);">({{ vm.cts[vm.light.c] }})</small>
+  </h1>
+
+  <div class="row">
+    <div id="top"></div>
+    <div class="col-60">
+      <ul rn-carousel rn-carousel-control rn-carousel-indicator class="my-slider" style="height: 300px;">
+        <li ng-repeat="img in vm.light.is" ng-style="{ backgroundImage: 'url(http://daisy.qiniudn.com/' + img + '-400x300)' }">
+        </li>
+      </ul>
+      <div class="iv">
+        (
+        <a href="/images.html?{{ vm.is }}" target="_blank">Big images</a>
+        <span ng-if="vm.light.v">
+          /
+        </span>
+        <a href="/video.html?{{ vm.light.n }}" target="_blank" ng-if="vm.light.v">Video</a>
+        )
+      </div>
+    </div>
+    <div class="col-40">
+      <div class="tm">
+        <h3 class="title-sub">Marks && Tags</h3>
+
+        <br>
+        <br>
+        <div class="mks">
+          <i ng-repeat="mk in vm.light.ms" class="{{ mk }}" ng-click="vm.mark(mk)"></i>
+        </div>
+        <div class="tags">
+          <span ng-click="vm.closes();vm.category(vm.light.c)">{{ vm.cts[vm.light.c] }}</span>
+          <span ng-repeat="tag in vm.light.ts" ng-click="vm.tag(tag)">{{ tag }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-80">
+      <div class="title-sub">Technical parameters</div>
+      <div class="details" ng-bind-html="vm.light.be | unsafe">{{ vm.light.be }}</div>
+    </div>
+    <div class="col-20">
+      <div class="related">
+        <div class="title-sub">Related</div>
+        <div class="item" ng-repeat="related in vm.related" ng-click="vm.view2(related)">
+          <img ng-src="http://daisy.qiniudn.com/{{ related.is[0] }}-400x300" alt="{{ related.n }}">
+          <div class="n">{{ related.n }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="title-sub"></h3>
+  <br>
+  <p class="txt-center">
+    Copyright 2006-2011 <a href="http://www.daisylight.com">daisylight</a> Co. Ltd. All rights reserved
+  </p>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="about" ng-class="{'active': vm.about}">
+    <div class="close" ng-click="vm.about=false">
+      <span class="menu-toggle">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </span>
+    </div>
+  <!-- <h2 class="title-h1 txt-center">About US</h2> -->
+  <h1 class="txt-center">About US</h1>
+  <hr>
+  <div class="wrap">
+    <p class="intro">
+      <b>Daisy Group Co., Ltd.</b> is a high-tech manufacturer in LED stage lighting equipment and illumination products. Nowadays, we have nearly 10,000 square meters standard workshop and about 200 employees, 1/4 of them are R&D engineers and technicians. <br>"<b>DAISEYA</b>" is our own brand, we are specializing in the production of stage lighting, e.g. LED WALL WASHER, MOVING HEADS, CITY COLOR, LED PAR, etc.
+    </p>
+
+
+<!--         <div class="mks">
+          <i ng-repeat="mk in vm.light.ms" class="{{ mk }}" ng-click="vm.mark(mk)"></i>
+        </div>
+        <div class="tags">
+          <span ng-click="vm.closes();vm.category(vm.light.c)">{{ vm.cts[vm.light.c] }}</span>
+          <span ng-repeat="tag in vm.light.ts" ng-click="vm.tag(tag)">{{ tag }}</span>
+        </div> -->
+
+
+    <h2 class="txt-center">About Products</h3>
+    <h3 class="title-sub">Marks</h3>
+    <div class="mks">
+      <i ng-repeat="mk in vm.mks" class="{{ mk }}" ng-click="vm.about='';vm.mark(mk)"></i>
+    </div>
+
+    <h3 class="title-sub">Tags</h3>
+    <ul class="ats">
+      <li ng-repeat="tag in vm.ats" ng-click="vm.about='';vm.tag(tag)">{{ tag }}</li>
+    </ul>
+
+    <h3 class="title-sub">Watts</h3>
+    <ul class="aws">
+      <li ng-repeat="wt in vm.wts" ng-click="vm.about=''; vm.q={ts: wt}">{{ wt }}</li>
+    </ul>
+
+    <h3 class="title-sub">Product Information Download (PDF)</h3>
+    <ul class="pdf">
+      <li>
+        <a href="">2013 Product Guides</a>
+      </li>
+      <li>
+        <a href="">2014 Product Guides</a>
+      </li>
+    </ul>
+    
+    <h3 class="title-sub">Get show</h3>
+    <ul class="getshow">
+      <li>
+        <a href="">2014 Shanghai Pro Light + Sound Show</a>
+      </li>
+      <li>
+        <a href="">2013 Beijing Exhibition</a>
+      </li>
+      <li>
+        <a href="">Frankfurt Prolight+Sound 2013</a>
+      </li>
+      <li>
+        <a href="">2013 Guangzhou Get Show</a>
+      </li>
+    </ul>
+
+<!--     <h3 class="title-sub">Message</h3>
+    <div class="message">
+      <form ng-submit="vm.addMessage(message)">
+        <input ng-model='message.name' placeholder="Name" required>
+        <input type="email" ng-model='message.email' placeholder="Email" required>
+        <input ng-model='message.country' placeholder="Country City">
+        <textarea placeholder="Message" ng-model="message.content" required></textarea>
+        <input type="submit" id="submit" value="Submit Message" class="btn btn-default" />
+      </form>
+    </div> -->
+
+    <h3 class="title-sub">Contacts (Mary)</h3>
+    <div class="contacts row">
+      <div class="col-50">
+        <div class="skype">Skype: Ampus05</div>
+        <div class="qq">QQ: 2274937859</div>
+        <div class="wechat">Wechat: 2274937859</div>
+      </div>
+      <div class="col-50">
+        <div class="tel">Tel: 0086-(0)20-86414989</div>
+        <div class="fax">Fax: 0086-(0)20-61162251</div>
+        <div class="email">Email: 
+          <a href="mailto:daisylight@vip.163.com">daisylight@vip.163.com</a>
+        </div>
+      </div>
+      <div class="col-80">
+        <div class="addr">
+          Address: Bldg.A2~A3,No.11 Industrial Area,Yagang,Baiyun District,Guangzhou,China
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
 </div>

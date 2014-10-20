@@ -1,0 +1,13 @@
+cd web/webs-en/js && uglifyjs angular.min.js angular-route.min.js ui-bootstrap-custom-tpls-0.10.0.min.js app.js -o app.min.js
+cd web/en/js/lib && uglifyjs angular.min.js angular-route.min.js angular-touch.min.js angular-carousel.js -o lib.min.js
+
+<script src="/js/lib/angular.min.js"></script>
+<script src="/js/lib/angular-route.min.js"></script>
+<script src="/js/lib/angular-touch.min.js"></script>
+<script src="/js/lib/angular-carousel.min.js"></script>
+<script src="/js/app.js"></script>
+
+
+cd web/en/js/lib && uglifyjs angular.min.js angular-route.min.js angular-touch.min.js angular-carousel.min.js -o lib.min.js
+
+cd web/en/js && uglifyjs app.js -o app.min.js

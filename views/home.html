@@ -1,56 +1,20 @@
-<h1 class="title-h1 hidden-xs">Daisy Group Co., Ltd</h1>
-<div class="row">
-  <div ng-include=" 'sidebar.htm' "></div>
-
-  <div class="col-md-9">
-    <div class="row intr">
-      <div class="col-xs-12 col-md-8">
-        <p>
-          <b>Daisy Group Co., Ltd</b> is a high-tech manufacturer in LED stage lighting equipment and illumination products. Nowadays, we have nearly 10,000 square meters standard workshop and about 200 employees, 1/4 of them are R&D engineers and technicians. <b>"DAISEYA"</b> is our own brand, we are specializing in the production of stage lighting, e.g. <a href="#/categories/washer">LED WALL WASHER</a>, <a href="#/categories/moving">MOVING HEADS</a>, <a href="#/categories/city">CITY COLOR</a>, <a href="#/categories/par">LED PAR</a>, etc.
-        </p>
-      </div>
-      <div class="col-xs-12 col-md-4">
-          <a class="play" href="/video.html?DAISEYA" target="_blank">
-            <span class="glyphicon glyphicon-play"></span>
-            <div>What's Daisy Lingting?</div>
-          </a>
-      </div>
+<div class="home">
+  <nav>
+    <div class="logo">
+      <a href="/"></a>
     </div>
-
-
-    <div id="carousel">
-      <carousel interval="2500">
-        <slide ng-repeat="val in ['ML-Q1507-STEPLESS', 'ML-ZQ1519', 'PF1012']">
-          <a href="#/lights/{{ val }}">
-            <img ng-src="/img/home/{{ val }}.jpg" style="margin:auto;">
-          </a>
-        </slide>
-      </carousel>
-    </div>
-
-    <h2 class="title-sub">New</h2>
-    <div class="row tops">
-      <div als class="col-xs-6 col-md-3" ng-repeat="light in vm.tops">
-        <a class="thumbnail" ng-click="show(light)" href="#/lights/{{ light }}">
-          <img ng-src="http://daisy.qiniudn.com/{{ light }}-1.jpg-400x300" alt="{{ light }}">
-        </a>
-        <div class="name">{{ light }}</div>
-      </div>
-    </div>
-
-
-    <h2 class="title-sub">What our customers say:</h2>
-    <carousel interval="5000">
-      <slide ng-repeat="say in vm.says">
-        <div class="hi">
-          {{ say.hi }}
-          <br>
-          <em>- {{ say.who }}</em>
-          <div>
-          </div>
-        </div>
-      </slide>
-    </carousel>
-  </div>
-
+<!--     <div class="menu-nav">
+      <span class="menu-toggle">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </span>
+    </div> -->
+  </nav>
 </div>
+
+<h2>JavaScript Projects</h2>
+<a href="/">Home</a>
+<a href="#/lights">Lights</a>
+<h1>Home</h1>
+<hr>

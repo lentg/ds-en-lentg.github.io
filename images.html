@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Daisy Group</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <style type="text/css">
+      body{
+        background: rgb(31,31,31);
+        margin: 0.75em;
+      }
+      #rs img{
+        display: block;
+        width: 100%;
+        max-width: 1200px;
+        margin: 1.25em auto;
+      }
+      .logo{
+        height: 28px;
+        display: block;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="logo" href="/">
+      <img src="/img/logo.png">
+    </a>
+    <div id="rs"></div>
+
+  <script>
+    window.onload = function() {
+      var files = location.search.slice(1);
+      var images = files.split(',');
+      var arr = [];
+      for (var i = images.length - 1; i >= 0; i--) {
+        arr.unshift('<img src="http://daisy.qiniudn.com/'+images[i] + '-1200x900">')
+      };
+      $rs = document.getElementById('rs')
+      $rs.innerHTML = arr.join('');
+    }
+  </script>
+  </body>
+</html>
