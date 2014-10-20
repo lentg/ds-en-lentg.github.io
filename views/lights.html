@@ -1,11 +1,9 @@
 
 
 <div class="lights" id="lights">
-  <div id="ltop"></div>
-  <div id="aa"></div>
   <nav>
     <div class="logo">
-      <a href="/"></a>
+      <a href="#/" ng-click="vm.q={}"></a>
     </div>
     <div class="lang"><a href="http://zh.daisylight.com">中文</a></div>
     <ul class="menu" ng-class="{'active': vm.open}" >
@@ -171,16 +169,6 @@
       <b>Daisy Group Co., Ltd.</b> is a high-tech manufacturer in LED stage lighting equipment and illumination products. Nowadays, we have nearly 10,000 square meters standard workshop and about 200 employees, 1/4 of them are R&D engineers and technicians. <br>"<b>DAISEYA</b>" is our own brand, we are specializing in the production of stage lighting, e.g. LED WALL WASHER, MOVING HEADS, CITY COLOR, LED PAR, etc.
     </p>
 
-
-<!--         <div class="mks">
-          <i ng-repeat="mk in vm.light.ms" class="{{ mk }}" ng-click="vm.mark(mk)"></i>
-        </div>
-        <div class="tags">
-          <span ng-click="vm.closes();vm.category(vm.light.c)">{{ vm.cts[vm.light.c] }}</span>
-          <span ng-repeat="tag in vm.light.ts" ng-click="vm.tag(tag)">{{ tag }}</span>
-        </div> -->
-
-
     <h2 class="txt-center">About Products</h3>
     <h3 class="title-sub">Marks</h3>
     <div class="mks">
@@ -222,17 +210,6 @@
         <a href="">2013 Guangzhou Get Show</a>
       </li>
     </ul>
-
-<!--     <h3 class="title-sub">Message</h3>
-    <div class="message">
-      <form ng-submit="vm.addMessage(message)">
-        <input ng-model='message.name' placeholder="Name" required>
-        <input type="email" ng-model='message.email' placeholder="Email" required>
-        <input ng-model='message.country' placeholder="Country City">
-        <textarea placeholder="Message" ng-model="message.content" required></textarea>
-        <input type="submit" id="submit" value="Submit Message" class="btn btn-default" />
-      </form>
-    </div> -->
 
     <h3 class="title-sub">Contacts (Mary)</h3>
     <div class="contacts row">
