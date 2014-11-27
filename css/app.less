@@ -578,6 +578,13 @@ article {
   -webkit-overflow-scrolling: touch;
   background-color: #DDC;
 
+  a {
+    color: #27272B;
+    &:hover {
+      color: #de4f4f;
+    }
+  }
+
   &.active {
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
@@ -628,8 +635,10 @@ article {
       display: inline-block;
       margin: 0.5em;
       cursor: pointer;
+      color: #27272B;
       &:hover{
-        color: #777;
+        // color: #777;
+        color: #de4f4f;
       }
     }
   }
